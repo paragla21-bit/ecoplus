@@ -62,9 +62,26 @@ import { OrbitControls, Sphere, Box, Torus, Cone, Cylinder } from '@react-three/
 
 // Import for Charts
 import { 
-  LineChart, Line, BarChart, Bar, PieChart as RechartsPie, Pie, Cell,
-  XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
-  AreaChart, Area, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar
+  LineChart as RechartsLineChart, 
+  Line, 
+  BarChart, 
+  Bar, 
+  PieChart as RechartsPie, 
+  Pie, 
+  Cell,
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  Legend, 
+  ResponsiveContainer,
+  AreaChart, 
+  Area, 
+  RadarChart, 
+  PolarGrid, 
+  PolarAngleAxis, 
+  PolarRadiusAxis, 
+  Radar as RechartsRadar
 } from 'recharts';
 
 const App = () => {
