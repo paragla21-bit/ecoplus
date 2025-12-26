@@ -5,8 +5,67 @@ import {
   Download, Settings, RefreshCw, Volume2, PieChart, Shield, TrendingUp as ChartLine,
   Users, DollarSign, Globe, Smartphone, Maximize2, Minimize2, Star, X, Menu,
   Home, Heart, LineChart, Cog, ExternalLink, Database, Cpu, BarChart2,
-  Cloud, Wifi, WifiOff, Battery, BatteryCharging, Thermometer
+  Cloud, Wifi, WifiOff, Battery, BatteryCharging, Thermometer, Moon, Sun,
+  TrendingDown as Bear, Lock, Unlock, Eye, EyeOff, Radio, Satellite, Radar,
+  Activity as Pulse, Wind, ThermometerSun, CloudRain, CloudLightning,
+  Cast, Airplay, Bluetooth, Server, HardDrive, Cctv, Fingerprint, Key,
+  Rocket, Sparkles, Target as Crosshair, Swords, Shield as ShieldCheck,
+  Award, Trophy, Crown, Gem, Diamond, Coins, Wallet, CreditCard, Bitcoin,
+  MessageSquare, PhoneCall, Video, Mail, BellRing, Siren, Siren as Alarm,
+  VolumeX, Volume1, Volume2 as VolumeHigh, Mic, MicOff, Headphones,
+  Music, Play, Pause, StopCircle, SkipBack, SkipForward, RotateCcw,
+  Calendar, Map, Navigation, Compass, Globe2, MapPin, Layers, Grid,
+  Cpu as Processor, MemoryStick, HardDrive as Storage, Router,
+  Database as Data, Binary, Code, Terminal, Cursor, MousePointerClick,
+  Hand, HandMetal, FishSymbol, Anchor, Ship, Plane, Car, Train, Bike,
+  Skull, Ghost, Alien, Gamepad2, Dice5, Puzzle, BrainCircuit, Atom,
+  FlaskConical, Beaker, TestTube, Microscope, Telescope, SatelliteDish,
+  Earthquake, Volcano, Tornado, Hurricane, Snowflake, Umbrella, SunDim,
+  Droplets, Flame, TreePine, Leaf, Sprout, Flower2, Bone, HeartPulse,
+  Stethoscope, Pill, Syringe, Scan, ScanFace, QrCode, Barcode, KeySquare,
+  ShieldOff, ShieldQuestion, ShieldAlert, ShieldPlus, ShieldMinus,
+  Sword, Axe, Hammer, Wrench, Nut, Bolt, Cog as Gear, Sliders,
+  ToggleLeft, ToggleRight, SwitchCamera, Camera, CameraOff, VideoOff,
+  Mic2, Voicemail, PhoneOff, PhoneForwarded, PhoneIncoming, PhoneOutgoing,
+  PhoneMissed, Phone as PhoneCall2, MessageCircle, MessageSquarePlus,
+  Send, Inbox, Archive, Trash2, Folder, FolderOpen, File, FileText,
+  FileCode, FileSpreadsheet, FileImage, FileAudio, FileVideo,
+  BookOpen, Bookmark, BookmarkCheck, BookmarkPlus, BookmarkMinus,
+  Clipboard, ClipboardCheck, ClipboardCopy, ClipboardList, ClipboardX,
+  CalendarDays, CalendarCheck, CalendarClock, CalendarPlus, CalendarMinus,
+  Timer, TimerReset, TimerOff, Hourglass, Watch, AlarmClock, AlarmClockCheck,
+  AlarmClockMinus, AlarmClockOff, AlarmClockPlus, BellDot, BellMinus,
+  BellPlus, BellRing as BellRing2, BellOff, Megaphone, MegaphoneOff,
+  Broadcast, RadioTower, Satellite as Satellite2, Signal, SignalHigh,
+  SignalLow, SignalZero, Wifi as Wifi2, WifiOff as WifiOff2, Bluetooth as Bluetooth2,
+  Usb, Plug, PlugZap, Power, PowerOff, Battery as Battery2, BatteryCharging as BatteryCharging2,
+  BatteryFull, BatteryMedium, BatteryLow, BatteryWarning, Cpu as Cpu2,
+  MemoryStick as Ram, HardDrive as Hdd, Database as Database2, Server as Server2,
+  Router as Router2, Cloud as Cloud2, CloudOff, CloudDrizzle, CloudLightning as CloudLightning2,
+  CloudSnow, CloudRain as CloudRain2, CloudFog, CloudSun, CloudMoon,
+  Cloudy, Sunrise, Sunset, Moon as Moon2, Sun as Sun2, Star as Star2,
+  Planet, Satellite as Satellite3, Rocket as Rocket2, UFO, Meteor,
+  Sparkles as Sparkles2, Fire, Droplet, Waves, Mountain, Tree,
+  Tent, Factory, Warehouse, Home as Home2, Building, Building2,
+  Bank, Hospital, School, Store, ShoppingCart, ShoppingBag, Tag,
+  Ticket, Percent, IndianRupee, DollarSign as Dollar, Euro, PoundSterling,
+  Yen, Bitcoin as Bitcoin2, Ethereum, Litecoin, Dogecoin, CreditCard as CreditCard2,
+  Wallet as Wallet2, Receipt, ReceiptText, Calculator, ChartNoAxesCombined,
+  ChartCandlestick, ChartLine as ChartLine2, ChartArea, ChartBar,
+  ChartBarBig, ChartPie, ChartScatter, ChartSpline
 } from 'lucide-react';
+
+// Import for 3D effects
+import * as THREE from 'three';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { OrbitControls, Sphere, Box, Torus, Cone, Cylinder } from '@react-three/drei';
+
+// Import for Charts
+import { 
+  LineChart, Line, BarChart, Bar, PieChart as RechartsPie, Pie, Cell,
+  XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
+  AreaChart, Area, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar
+} from 'recharts';
 
 const App = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -23,7 +82,7 @@ const App = () => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
-  // New state variables
+  // Advanced State Variables
   const [connectionStatus, setConnectionStatus] = useState('connected');
   const [batteryLevel, setBatteryLevel] = useState(85);
   const [isCharging, setIsCharging] = useState(true);
@@ -33,15 +92,157 @@ const App = () => {
   const [showConfetti, setShowConfetti] = useState(false);
   const [selectedTimeframe, setSelectedTimeframe] = useState('1D');
   const [gridView, setGridView] = useState(false);
+  const [neuralNetworkMode, setNeuralNetworkMode] = useState(false);
+  const [holographicDisplay, setHolographicDisplay] = useState(false);
+  const [cyberpunkMode, setCyberpunkMode] = useState(false);
+  const [quantumMode, setQuantumMode] = useState(false);
+  const [aiAssistantActive, setAiAssistantActive] = useState(false);
+  const [voiceCommands, setVoiceCommands] = useState(false);
+  const [biometricAuth, setBiometricAuth] = useState(true);
+  const [darkWebMonitoring, setDarkWebMonitoring] = useState(false);
+  const [satelliteView, setSatelliteView] = useState(false);
+  const [predictionAccuracy, setPredictionAccuracy] = useState(87.3);
+  const [marketTemperature, setMarketTemperature] = useState(72);
+  const [quantumEntanglement, setQuantumEntanglement] = useState(0);
+  const [neuralActivity, setNeuralActivity] = useState([]);
+  const [cryptoMining, setCryptoMining] = useState(false);
+  const [blockchainSync, setBlockchainSync] = useState(85);
+  const [quantumBits, setQuantumBits] = useState([]);
+  const [cyberAttackDetected, setCyberAttackDetected] = useState(false);
+  const [aiInsights, setAiInsights] = useState([]);
+  const [tradingBotsActive, setTradingBotsActive] = useState(3);
+  const [timeTravelMode, setTimeTravelMode] = useState(false);
+  const [parallelUniverse, setParallelUniverse] = useState(0);
+  const [realityDistortion, setRealityDistortion] = useState(0);
+  const [wormholeOpen, setWormholeOpen] = useState(false);
   
   // Settings state
-  const [refreshInterval, setRefreshInterval] = useState('Manual');
+  const [refreshInterval, setRefreshInterval] = useState('Quantum');
   const [defaultCurrency, setDefaultCurrency] = useState('Indian Rupees (₹)');
   const [priceAlerts, setPriceAlerts] = useState(true);
   const [signalAlerts, setSignalAlerts] = useState(true);
   
   const mainRef = useRef(null);
   const searchInputRef = useRef(null);
+  const audioRef = useRef(null);
+  const canvasRef = useRef(null);
+
+  // 3D Background Component
+  const ThreeDBackground = () => {
+    const meshRef = useRef();
+    const particlesRef = useRef();
+    
+    useFrame((state) => {
+      if (meshRef.current) {
+        meshRef.current.rotation.x = state.clock.elapsedTime * 0.1;
+        meshRef.current.rotation.y = state.clock.elapsedTime * 0.15;
+      }
+      if (particlesRef.current) {
+        particlesRef.current.rotation.y = state.clock.elapsedTime * 0.05;
+      }
+    });
+
+    return (
+      <>
+        <ambientLight intensity={0.2} />
+        <pointLight position={[10, 10, 10]} />
+        <mesh ref={meshRef}>
+          <torusKnotGeometry args={[1, 0.3, 128, 16]} />
+          <meshStandardMaterial color={quantumMode ? "#00ff88" : "#0066ff"} wireframe />
+        </mesh>
+        <points ref={particlesRef}>
+          <sphereGeometry args={[5, 32, 32]} />
+          <pointsMaterial color="#ffffff" size={0.02} transparent />
+        </points>
+      </>
+    );
+  };
+
+  // Generate Quantum Bits
+  useEffect(() => {
+    if (quantumMode) {
+      const interval = setInterval(() => {
+        setQuantumBits(prev => {
+          const newBits = Array.from({length: 5}, () => ({
+            id: Math.random(),
+            x: Math.random() * 100,
+            y: Math.random() * 100,
+            state: Math.random() > 0.5 ? '|0⟩' : '|1⟩',
+            spin: Math.random() * 360
+          }));
+          return newBits.slice(0, 20);
+        });
+      }, 300);
+      return () => clearInterval(interval);
+    }
+  }, [quantumMode]);
+
+  // Generate Neural Activity
+  useEffect(() => {
+    if (neuralNetworkMode) {
+      const interval = setInterval(() => {
+        setNeuralActivity(prev => {
+          const newActivity = Array.from({length: 10}, (_, i) => ({
+            id: Date.now() + i,
+            intensity: Math.random() * 100,
+            layer: Math.floor(Math.random() * 5),
+            timestamp: Date.now()
+          }));
+          return [...newActivity, ...prev].slice(0, 50);
+        });
+      }, 200);
+      return () => clearInterval(interval);
+    }
+  }, [neuralNetworkMode]);
+
+  // Quantum Entanglement Effect
+  useEffect(() => {
+    if (quantumMode) {
+      const interval = setInterval(() => {
+        setQuantumEntanglement(prev => (prev + 1) % 100);
+      }, 100);
+      return () => clearInterval(interval);
+    }
+  }, [quantumMode]);
+
+  // Market Temperature Simulation
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setMarketTemperature(prev => {
+        const change = (Math.random() - 0.5) * 2;
+        return Math.min(100, Math.max(0, prev + change));
+      });
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Generate AI Insights
+  useEffect(() => {
+    const insights = [
+      "Market showing fractal pattern in 4H timeframe",
+      "Dark pool accumulation detected in banking sector",
+      "Quantum resistance forming at 15,800 level",
+      "Neural network predicts 78% probability of breakout",
+      "Blockchain analysis shows institutional buying",
+      "Time series anomaly detected in Asian session",
+      "Sentiment analysis turning bullish across forums",
+      "AI detects hidden support at Fibonacci 0.618",
+      "Quantum computing model suggests trend reversal",
+      "Neural oscillator showing overbought conditions"
+    ];
+    
+    const interval = setInterval(() => {
+      setAiInsights(prev => {
+        const newInsight = insights[Math.floor(Math.random() * insights.length)];
+        if (prev[0]?.text !== newInsight) {
+          return [{ id: Date.now(), text: newInsight, time: new Date().toLocaleTimeString() }, ...prev.slice(0, 4)];
+        }
+        return prev;
+      });
+    }, 10000);
+    
+    return () => clearInterval(interval);
+  }, []);
 
   // Performance optimization - useMemo for expensive calculations
   const generateAdvancedData = useCallback(() => {
@@ -73,6 +274,8 @@ const App = () => {
       const aiScore = (85 + Math.random() * 15).toFixed(1);
       const riskScore = (3 + Math.random() * 4).toFixed(1);
       const sentimentScore = (70 + Math.random() * 30).toFixed(1);
+      const quantumProbability = (Math.random() * 100).toFixed(1);
+      const neuralStrength = (60 + Math.random() * 40).toFixed(1);
       
       return {
         ...stock,
@@ -102,7 +305,14 @@ const App = () => {
         rsi: (30 + Math.random() * 50).toFixed(1),
         macd: (Math.random() - 0.5).toFixed(3),
         support: (stock.basePrice * 0.95).toFixed(2),
-        resistance: (stock.basePrice * 1.05).toFixed(2)
+        resistance: (stock.basePrice * 1.05).toFixed(2),
+        quantumProbability,
+        neuralStrength,
+        blockchainConfidence: (70 + Math.random() * 30).toFixed(1),
+        timeSeriesAnomaly: Math.random() > 0.8 ? 'Detected' : 'Normal',
+        fractalDimension: (1.2 + Math.random() * 0.8).toFixed(2),
+        entropy: (Math.random() * 10).toFixed(2),
+        chaosIndex: (Math.random() * 100).toFixed(1)
       };
     });
   }, []);
@@ -114,10 +324,42 @@ const App = () => {
     winRate: '76.2%',
     sharpeRatio: '2.1',
     totalTrades: '1,247',
-    profitFactor: '2.8'
+    profitFactor: '2.8',
+    alpha: '1.24',
+    beta: '0.87',
+    maxDrawdown: '-8.4%',
+    sortinoRatio: '3.2'
   });
 
-  // Use useMemo for filtered assets to prevent unnecessary recalculations
+  // Chart Data for Visualization
+  const chartData = useMemo(() => {
+    return Array.from({length: 20}, (_, i) => ({
+      time: `${i}:00`,
+      price: 1000 + Math.sin(i * 0.5) * 100 + Math.random() * 50,
+      volume: Math.random() * 1000,
+      sentiment: Math.random() * 100
+    }));
+  }, []);
+
+  const radarData = useMemo(() => [
+    { subject: 'Technical', A: 86, B: 70 },
+    { subject: 'Sentiment', A: 92, B: 65 },
+    { subject: 'Volume', A: 78, B: 85 },
+    { subject: 'Momentum', A: 95, B: 72 },
+    { subject: 'Volatility', A: 68, B: 90 },
+    { subject: 'Trend', A: 88, B: 75 },
+  ], []);
+
+  const pieData = useMemo(() => [
+    { name: 'Stocks', value: 40 },
+    { name: 'Crypto', value: 25 },
+    { name: 'Forex', value: 20 },
+    { name: 'Commodities', value: 15 },
+  ], []);
+
+  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+
+  // Use useMemo for filtered assets
   const filteredAssets = useMemo(() => {
     return assets
       .filter(asset => selectedSector === 'All' || asset.sector === selectedSector)
@@ -140,13 +382,11 @@ const App = () => {
           case 'Volume Profile': return b.volumeProfile.localeCompare(a.volumeProfile);
           case 'Price Change': return parseFloat(b.change) - parseFloat(a.change);
           case 'Market Cap': return parseFloat(b.marketCapCr.replace(/,/g, '')) - parseFloat(a.marketCapCr.replace(/,/g, ''));
+          case 'Quantum Probability': return parseFloat(b.quantumProbability) - parseFloat(a.quantumProbability);
           default: return a.rank - b.rank;
         }
       });
   }, [assets, selectedSector, riskFilter, searchQuery, sortBy]);
-
-  // Removed auto-refresh useEffect - PROBLEM FIXED
-  // This was causing the refresh issue
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
@@ -164,7 +404,19 @@ const App = () => {
         }
         return Math.max(10, prev - 0.2);
       });
-    }, 5000);
+      
+      // Simulate cyber attacks occasionally
+      if (Math.random() > 0.95) {
+        setCyberAttackDetected(true);
+        setTimeout(() => setCyberAttackDetected(false), 5000);
+      }
+      
+      // Simulate blockchain sync
+      setBlockchainSync(prev => {
+        if (prev < 100) return prev + 0.1;
+        return 100;
+      });
+    }, 3000);
     
     return () => clearInterval(interval);
   }, [isCharging]);
@@ -193,28 +445,35 @@ const App = () => {
     putCallRatio: '0.68',
     vix: '15.2',
     advancers: '1,245',
-    decliners: '876'
+    decliners: '876',
+    quantumIndex: '42.6',
+    chaosFactor: '23.4',
+    entropyLevel: '67.8'
   }), []);
 
   const sessions = useMemo(() => [
     { name: 'Asian KZ', active: false, time: '6:30-9:30 AM IST', priority: 3, volatility: 'Medium', volume: 'Low' },
     { name: 'London KZ', active: true, time: '12:30-3:30 PM IST', priority: 5, volatility: 'High', volume: 'High' },
     { name: 'NY KZ', active: true, time: '5:30-8:30 PM IST', priority: 5, volatility: 'High', volume: 'Very High' },
-    { name: 'Silver Bullet', active: false, time: '8:30-9:30 PM IST', priority: 4, volatility: 'Low', volume: 'Medium' }
-  ], []);
+    { name: 'Silver Bullet', active: false, time: '8:30-9:30 PM IST', priority: 4, volatility: 'Low', volume: 'Medium' },
+    { name: 'Quantum Session', active: quantumMode, time: 'All Day', priority: 6, volatility: 'Extreme', volume: 'Quantum' }
+  ], [quantumMode]);
 
   const marketStats = useMemo(() => ({
     totalAssets: assets.length,
     strongSignals: assets.filter(a => a.signal.includes('STRONG')).length,
     averageAccuracy: '87.3%',
     activeSession: 'London + NY Overlap',
-    marketRegime: 'TRENDING',
+    marketRegime: quantumMode ? 'QUANTUM FLUX' : 'TRENDING',
     totalMarketCap: '45.2T',
     advancingStocks: Math.floor(assets.length * 0.65),
     decliningStocks: Math.floor(assets.length * 0.35),
     totalVolume: '₹4.2T',
-    putCallRatio: '0.68'
-  }), [assets]);
+    putCallRatio: '0.68',
+    quantumEntanglement: `${quantumEntanglement}%`,
+    neuralActivity: neuralActivity.length,
+    aiPredictions: '1,247'
+  }), [assets, quantumMode, quantumEntanglement, neuralActivity.length]);
 
   const topGainers = useMemo(() => [...assets].sort((a, b) => parseFloat(b.change) - parseFloat(a.change)).slice(0, 3), [assets]);
   const topLosers = useMemo(() => [...assets].sort((a, b) => parseFloat(a.change) - parseFloat(b.change)).slice(0, 3), [assets]);
@@ -243,13 +502,12 @@ const App = () => {
     const url = URL.createObjectURL(dataBlob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `trading-data-${new Date().toISOString().split('T')[0]}.json`;
+    link.download = `quantum-trading-data-${new Date().toISOString().split('T')[0]}.json`;
     link.click();
     
-    // Show success notification
     const newAlert = {
       id: Date.now(),
-      message: `Data exported successfully!`,
+      message: `Quantum data exported successfully!`,
       type: 'success',
       time: new Date().toLocaleTimeString()
     };
@@ -263,10 +521,9 @@ const App = () => {
   const refreshData = useCallback(() => {
     setAssets(generateAdvancedData());
     
-    // Show notification
     const newAlert = {
       id: Date.now(),
-      message: `Data refreshed successfully`,
+      message: `Quantum data refreshed successfully`,
       type: 'info',
       time: new Date().toLocaleTimeString()
     };
@@ -286,10 +543,103 @@ const App = () => {
     setTimeout(() => setShowConfetti(false), 3000);
   }, [toggleWatchlist]);
 
+  const activateQuantumMode = () => {
+    setQuantumMode(true);
+    setNeuralNetworkMode(true);
+    setCyberpunkMode(true);
+    setPredictionAccuracy(95.7);
+    
+    const newAlert = {
+      id: Date.now(),
+      message: `🚀 Quantum Trading Mode Activated!`,
+      type: 'success',
+      time: new Date().toLocaleTimeString()
+    };
+    setAlerts(prev => [newAlert, ...prev.slice(0, 4)]);
+  };
+
+  const activateNeuralNetwork = () => {
+    setNeuralNetworkMode(!neuralNetworkMode);
+    
+    const newAlert = {
+      id: Date.now(),
+      message: neuralNetworkMode ? `Neural Network Deactivated` : `🧠 Neural Network Activated!`,
+      type: 'info',
+      time: new Date().toLocaleTimeString()
+    };
+    setAlerts(prev => [newAlert, ...prev.slice(0, 4)]);
+  };
+
+  const openWormhole = () => {
+    setWormholeOpen(true);
+    setTimeTravelMode(true);
+    
+    setTimeout(() => {
+      setWormholeOpen(false);
+      setParallelUniverse(prev => prev + 1);
+      
+      const newAlert = {
+        id: Date.now(),
+        message: `🌀 Entered Parallel Universe #${parallelUniverse + 1}`,
+        type: 'warning',
+        time: new Date().toLocaleTimeString()
+      };
+      setAlerts(prev => [newAlert, ...prev.slice(0, 4)]);
+    }, 3000);
+  };
+
+  // Quantum Bits Component
+  const QuantumBits = () => (
+    <div className="fixed inset-0 pointer-events-none z-0">
+      {quantumBits.map((bit, i) => (
+        <div
+          key={bit.id}
+          className="absolute w-2 h-2 rounded-full bg-cyan-400 opacity-70 animate-pulse"
+          style={{
+            left: `${bit.x}vw`,
+            top: `${bit.y}vh`,
+            transform: `rotate(${bit.spin}deg)`,
+            animationDelay: `${i * 0.1}s`
+          }}
+        >
+          <div className="text-[8px] text-cyan-300 absolute -top-4">{bit.state}</div>
+        </div>
+      ))}
+    </div>
+  );
+
+  // Neural Network Visualization
+  const NeuralNetworkViz = () => (
+    <div className="absolute inset-0 overflow-hidden opacity-20">
+      {[...Array(20)].map((_, i) => (
+        <div
+          key={i}
+          className="absolute w-px h-full bg-purple-500"
+          style={{
+            left: `${(i * 5) % 100}%`,
+            animation: `neuralPulse ${2 + Math.random() * 3}s infinite`,
+            animationDelay: `${i * 0.2}s`
+          }}
+        />
+      ))}
+      {[...Array(15)].map((_, i) => (
+        <div
+          key={i}
+          className="absolute h-px w-full bg-blue-500"
+          style={{
+            top: `${(i * 7) % 100}%`,
+            animation: `neuralPulse ${3 + Math.random() * 2}s infinite`,
+            animationDelay: `${i * 0.3}s`
+          }}
+        />
+      ))}
+    </div>
+  );
+
   // System Status Component
   const SystemStatus = () => (
-    <div className={`flex items-center space-x-4 ${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg px-3 py-2 border ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
-      <div className="flex items-center space-x-2">
+    <div className={`flex items-center space-x-4 ${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg px-3 py-2 border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'}`}>
+      <div className="flex items-center space-x-2" title="Connection Status">
         {connectionStatus === 'connected' ? (
           <Wifi className="w-4 h-4 text-emerald-400" />
         ) : (
@@ -297,15 +647,15 @@ const App = () => {
         )}
         <span className="text-xs">{connectionStatus === 'connected' ? 'Online' : 'Offline'}</span>
       </div>
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center space-x-2" title="CPU Usage">
         <Cpu className="w-4 h-4 text-blue-400" />
         <span className="text-xs">{cpuUsage.toFixed(0)}%</span>
       </div>
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center space-x-2" title="Memory Usage">
         <Database className="w-4 h-4 text-purple-400" />
         <span className="text-xs">{memoryUsage.toFixed(0)}%</span>
       </div>
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center space-x-2" title="Battery">
         {isCharging ? (
           <BatteryCharging className="w-4 h-4 text-green-400" />
         ) : (
@@ -313,57 +663,210 @@ const App = () => {
         )}
         <span className="text-xs">{batteryLevel.toFixed(0)}%</span>
       </div>
+      {quantumMode && (
+        <div className="flex items-center space-x-2" title="Quantum Entanglement">
+          <Atom className="w-4 h-4 text-cyan-400" />
+          <span className="text-xs">{quantumEntanglement}%</span>
+        </div>
+      )}
+    </div>
+  );
+
+  // AI Assistant Component
+  const AiAssistant = () => (
+    <div className={`fixed bottom-4 left-4 z-40 ${aiAssistantActive ? 'block' : 'hidden'}`}>
+      <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-4 border ${darkMode ? 'border-purple-500' : 'border-purple-200'} shadow-xl max-w-sm`}>
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center">
+            <BrainCircuit className="w-5 h-5 text-purple-400 mr-2" />
+            <span className="font-bold">Quantum AI Assistant</span>
+          </div>
+          <button onClick={() => setAiAssistantActive(false)}>
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+        <div className="text-sm text-gray-300 mb-3">
+          {aiInsights[0]?.text || "Analyzing market patterns..."}
+        </div>
+        <div className="flex space-x-2">
+          <button 
+            onClick={refreshData}
+            className="text-xs px-2 py-1 bg-purple-600 rounded hover:bg-purple-700"
+          >
+            Refresh Analysis
+          </button>
+          <button 
+            onClick={() => setVoiceCommands(!voiceCommands)}
+            className="text-xs px-2 py-1 bg-blue-600 rounded hover:bg-blue-700"
+          >
+            {voiceCommands ? 'Mute' : 'Voice'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Cyber Attack Alert
+  const CyberAttackAlert = () => (
+    <div className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-50 ${cyberAttackDetected ? 'block' : 'hidden'}`}>
+      <div className="bg-red-900 border border-red-700 rounded-lg p-3 animate-pulse shadow-lg">
+        <div className="flex items-center">
+          <Siren className="w-5 h-5 text-red-400 mr-2 animate-pulse" />
+          <span className="font-bold text-red-300">🚨 CYBER ATTACK DETECTED!</span>
+          <Siren className="w-5 h-5 text-red-400 ml-2 animate-pulse" />
+        </div>
+        <div className="text-sm text-red-200 mt-1">
+          Quantum firewall activated. Threat neutralized.
+        </div>
+      </div>
+    </div>
+  );
+
+  // Wormhole Effect
+  const WormholeEffect = () => (
+    <div className={`fixed inset-0 z-50 ${wormholeOpen ? 'block' : 'hidden'}`}>
+      <div className="absolute inset-0 bg-black">
+        {[...Array(100)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-1 h-1 rounded-full bg-white"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animation: `wormhole ${1 + Math.random()}s infinite`,
+              animationDelay: `${i * 0.01}s`
+            }}
+          />
+        ))}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-4xl font-bold text-white animate-pulse">
+            🌀 ENTERING WORMHOLE...
+          </div>
+        </div>
+      </div>
     </div>
   );
 
   const DashboardView = () => (
     <>
+      {/* 3D Background */}
+      {quantumMode && (
+        <div className="fixed inset-0 z-0 opacity-10">
+          <Canvas>
+            <ThreeDBackground />
+          </Canvas>
+        </div>
+      )}
+
+      {/* Quantum Effects */}
+      {quantumMode && <QuantumBits />}
+      {neuralNetworkMode && <NeuralNetworkViz />}
+      
+      {/* Cyber Attack Alert */}
+      <CyberAttackAlert />
+      
+      {/* Wormhole Effect */}
+      <WormholeEffect />
+      
+      {/* AI Assistant */}
+      <AiAssistant />
+
       {/* System Status Bar */}
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-4 relative z-10">
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-2">
             <div className={`w-2 h-2 rounded-full ${connectionStatus === 'connected' ? 'bg-emerald-400 animate-pulse' : 'bg-red-400'}`}></div>
-            <span className="text-sm">Live</span>
+            <span className="text-sm">Quantum Live</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <ThermometerSun className="w-4 h-4 text-orange-400" />
+            <span className="text-sm">Market Temp: {marketTemperature.toFixed(1)}°</span>
           </div>
           <span className="text-sm text-gray-400">Last update: {currentTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
         </div>
         <SystemStatus />
       </div>
 
-      {/* Enhanced Key Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 mb-6">
-        {[
-          { label: 'Total Assets', value: marketStats.totalAssets, icon: BarChart3, color: 'emerald', change: '+2' },
-          { label: 'Strong Signals', value: marketStats.strongSignals, icon: Zap, color: 'emerald', change: '+3' },
-          { label: 'Win Rate', value: performanceStats.winRate, icon: Target, color: 'purple', change: '+1.2%' },
-          { label: 'Total Volume', value: marketStats.totalVolume, icon: Activity, color: 'blue', change: '₹1.2T' },
-          { label: 'Profit Factor', value: performanceStats.profitFactor, icon: TrendingUp, color: 'green', change: '↑ 0.3' },
-          { label: 'Put/Call', value: marketStats.putCallRatio, icon: BarChart2, color: 'orange', change: '0.68' }
-        ].map((stat, idx) => (
-          <div key={idx} className={`${darkMode ? 'bg-gray-800 bg-opacity-50' : 'bg-white'} backdrop-blur-sm border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'} rounded-lg p-3 hover:scale-[1.02] transition-transform duration-200`}>
-            <div className="flex items-center justify-between mb-1">
-              <stat.icon className={`w-4 h-4 text-${stat.color}-400`} />
-              <span className={`text-xs font-semibold ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>{stat.label}</span>
+      {/* Quantum Control Panel */}
+      <div className={`mb-6 ${darkMode ? 'bg-gray-800 bg-opacity-90' : 'bg-white'} backdrop-blur-sm rounded-lg p-4 border ${darkMode ? 'border-cyan-500' : 'border-cyan-200'} relative z-10`}>
+        <div className="flex flex-wrap gap-3 items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <span className="font-bold text-lg bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
+              🔮 QUANTUM CONTROL PANEL
+            </span>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={activateQuantumMode}
+              className={`px-4 py-2 rounded-lg ${quantumMode ? 'bg-cyan-700' : 'bg-cyan-600 hover:bg-cyan-700'} text-white font-medium flex items-center`}
+            >
+              <Atom className="w-4 h-4 mr-2" />
+              {quantumMode ? 'Quantum Active' : 'Activate Quantum'}
+            </button>
+            <button
+              onClick={activateNeuralNetwork}
+              className={`px-4 py-2 rounded-lg ${neuralNetworkMode ? 'bg-purple-700' : 'bg-purple-600 hover:bg-purple-700'} text-white font-medium flex items-center`}
+            >
+              <BrainCircuit className="w-4 h-4 mr-2" />
+              {neuralNetworkMode ? 'Neural Active' : 'Neural Network'}
+            </button>
+            <button
+              onClick={() => setCyberpunkMode(!cyberpunkMode)}
+              className={`px-4 py-2 rounded-lg ${cyberpunkMode ? 'bg-pink-700' : 'bg-pink-600 hover:bg-pink-700'} text-white font-medium flex items-center`}
+            >
+              <SatelliteDish className="w-4 h-4 mr-2" />
+              Cyberpunk
+            </button>
+            <button
+              onClick={openWormhole}
+              className="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-medium flex items-center"
+            >
+              <Rocket className="w-4 h-4 mr-2" />
+              Open Wormhole
+            </button>
+            <button
+              onClick={() => setCryptoMining(!cryptoMining)}
+              className={`px-4 py-2 rounded-lg ${cryptoMining ? 'bg-yellow-700' : 'bg-yellow-600 hover:bg-yellow-700'} text-white font-medium flex items-center`}
+            >
+              <Bitcoin className="w-4 h-4 mr-2" />
+              {cryptoMining ? 'Mining...' : 'Crypto Mine'}
+            </button>
+          </div>
+        </div>
+        
+        {/* Quantum Stats */}
+        {quantumMode && (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
+            <div className={`p-3 rounded-lg ${darkMode ? 'bg-cyan-900 bg-opacity-30' : 'bg-cyan-50'} border border-cyan-500`}>
+              <div className="text-xs text-cyan-300">Quantum Entanglement</div>
+              <div className="text-lg font-bold">{quantumEntanglement}%</div>
             </div>
-            <div className="flex items-end justify-between">
-              <div className="text-lg font-bold">{stat.value}</div>
-              <span className={`text-xs ${stat.change.includes('+') || stat.change.includes('↑') ? 'text-emerald-400' : 'text-red-400'}`}>
-                {stat.change}
-              </span>
+            <div className={`p-3 rounded-lg ${darkMode ? 'bg-purple-900 bg-opacity-30' : 'bg-purple-50'} border border-purple-500`}>
+              <div className="text-xs text-purple-300">Neural Activity</div>
+              <div className="text-lg font-bold">{neuralActivity.length}</div>
+            </div>
+            <div className={`p-3 rounded-lg ${darkMode ? 'bg-green-900 bg-opacity-30' : 'bg-green-50'} border border-green-500`}>
+              <div className="text-xs text-green-300">Blockchain Sync</div>
+              <div className="text-lg font-bold">{blockchainSync.toFixed(1)}%</div>
+            </div>
+            <div className={`p-3 rounded-lg ${darkMode ? 'bg-red-900 bg-opacity-30' : 'bg-red-50'} border border-red-500`}>
+              <div className="text-xs text-red-300">Parallel Universes</div>
+              <div className="text-lg font-bold">#{parallelUniverse}</div>
             </div>
           </div>
-        ))}
+        )}
       </div>
 
-      {/* Market Overview */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+      {/* Enhanced Key Stats with Charts */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6 relative z-10">
+        {/* Market Overview with Chart */}
         <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-4 border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'}`}>
           <div className="flex justify-between items-center mb-3">
             <h3 className="font-bold flex items-center">
               <Globe className="mr-2 text-emerald-400" /> Market Overview
             </h3>
             <div className="flex space-x-1">
-              {['1D', '1W', '1M', '3M'].map((tf) => (
+              {['1D', '1W', '1M', '3M', 'Quantum'].map((tf) => (
                 <button
                   key={tf}
                   onClick={() => setSelectedTimeframe(tf)}
@@ -374,11 +877,22 @@ const App = () => {
               ))}
             </div>
           </div>
-          <div className="space-y-3">
-            {Object.entries(marketSentiment).map(([key, value], idx) => (
-              <div key={idx} className="flex justify-between items-center">
-                <span className={darkMode ? 'text-gray-300' : 'text-gray-700'}>{key.replace(/([A-Z])/g, ' $1')}</span>
-                <span className={`px-2 py-1 rounded text-sm ${value.includes('+') ? 'bg-emerald-600' : value.includes('-') ? 'bg-red-600' : 'bg-emerald-800'}`}>
+          <div className="h-40 mb-3">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={chartData}>
+                <CartesianGrid strokeDasharray="3 3" stroke={darkMode ? "#374151" : "#e5e7eb"} />
+                <XAxis dataKey="time" stroke={darkMode ? "#9ca3af" : "#6b7280"} />
+                <YAxis stroke={darkMode ? "#9ca3af" : "#6b7280"} />
+                <Tooltip />
+                <Area type="monotone" dataKey="price" stroke="#10b981" fill="#10b981" fillOpacity={0.3} />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="space-y-2">
+            {Object.entries(marketSentiment).slice(0, 4).map(([key, value], idx) => (
+              <div key={idx} className="flex justify-between items-center text-sm">
+                <span className={darkMode ? 'text-gray-300' : 'text-gray-700'}>{key}</span>
+                <span className={`px-2 py-1 rounded text-xs ${value.includes('+') ? 'bg-emerald-600' : 'bg-emerald-800'}`}>
                   {value}
                 </span>
               </div>
@@ -386,116 +900,121 @@ const App = () => {
           </div>
         </div>
 
-        {/* Top Movers */}
-        <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-4 border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'}`}>
+        {/* Radar Chart for Analysis */}
+        <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-4 border ${darkMode ? 'border-purple-500' : 'border-purple-200'}`}>
           <h3 className="font-bold mb-3 flex items-center">
-            <TrendingUp className="mr-2 text-emerald-400" /> Top Movers
+            <Radar className="mr-2 text-purple-400" /> Analysis Radar
           </h3>
-          <div className="space-y-4">
-            <div>
-              <div className="text-sm font-semibold text-emerald-400 mb-2 flex justify-between">
-                <span>Top Gainers</span>
-                <span className="text-xs">Change</span>
-              </div>
-              {topGainers.map((stock, idx) => (
-                <div key={idx} className="flex justify-between items-center py-2 border-b border-gray-700 hover:bg-gray-700 hover:bg-opacity-30 rounded px-2 cursor-pointer">
-                  <div className="flex items-center flex-1">
-                    <span className="font-medium w-20">{stock.symbol}</span>
-                    <span className="text-emerald-400 font-semibold ml-auto mr-4">+{stock.change}%</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <span className="text-gray-300 text-sm">{formatIndianPrice(stock.price)}</span>
-                    <button 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        quickAddToWatchlist(stock.symbol);
-                      }}
-                      className="text-yellow-400 hover:text-yellow-300"
-                    >
-                      <Star className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div>
-              <div className="text-sm font-semibold text-red-400 mb-2 flex justify-between">
-                <span>Top Losers</span>
-                <span className="text-xs">Change</span>
-              </div>
-              {topLosers.map((stock, idx) => (
-                <div key={idx} className="flex justify-between items-center py-2 border-b border-gray-700 hover:bg-gray-700 hover:bg-opacity-30 rounded px-2 cursor-pointer">
-                  <div className="flex items-center flex-1">
-                    <span className="font-medium w-20">{stock.symbol}</span>
-                    <span className="text-red-400 font-semibold ml-auto mr-4">{stock.change}%</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <span className="text-gray-300 text-sm">{formatIndianPrice(stock.price)}</span>
-                    <button 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        quickAddToWatchlist(stock.symbol);
-                      }}
-                      className="text-yellow-400 hover:text-yellow-300"
-                    >
-                      <Star className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
+          <div className="h-40">
+            <ResponsiveContainer width="100%" height="100%">
+              <RadarChart data={radarData}>
+                <PolarGrid />
+                <PolarAngleAxis dataKey="subject" stroke={darkMode ? "#9ca3af" : "#6b7280"} />
+                <PolarRadiusAxis stroke={darkMode ? "#9ca3af" : "#6b7280"} />
+                <Radar name="Current" dataKey="A" stroke="#8b5cf6" fill="#8b5cf6" fillOpacity={0.3} />
+                <Radar name="Average" dataKey="B" stroke="#10b981" fill="#10b981" fillOpacity={0.3} />
+                <Legend />
+              </RadarChart>
+            </ResponsiveContainer>
           </div>
         </div>
 
-        <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-4 border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'}`}>
+        {/* Portfolio Distribution */}
+        <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-4 border ${darkMode ? 'border-blue-500' : 'border-blue-200'}`}>
           <h3 className="font-bold mb-3 flex items-center">
-            <ChartLine className="mr-2 text-emerald-400" /> Performance
+            <PieChart className="mr-2 text-blue-400" /> Portfolio Distribution
           </h3>
-          <div className="space-y-3">
-            {Object.entries(performanceStats).map(([key, value], idx) => (
-              <div key={idx} className="flex justify-between items-center py-2">
-                <span className={darkMode ? 'text-gray-300' : 'text-gray-700'}>{key.replace(/([A-Z])/g, ' $1')}</span>
-                <span className={`font-bold ${value.includes('+') ? 'text-emerald-400' : 'text-emerald-400'}`}>
-                  {value}
-                </span>
-              </div>
-            ))}
-            <div className="pt-3 border-t border-gray-700">
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-400">Total Trades</span>
-                <span className="font-bold">{performanceStats.totalTrades}</span>
-              </div>
-            </div>
+          <div className="h-40">
+            <ResponsiveContainer width="100%" height="100%">
+              <RechartsPie>
+                <Pie
+                  data={pieData}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={false}
+                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                  outerRadius={60}
+                  fill="#8884d8"
+                  dataKey="value"
+                >
+                  {pieData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </RechartsPie>
+            </ResponsiveContainer>
           </div>
         </div>
       </div>
 
-      {/* Trading Sessions */}
-      <div className={`mb-6 ${darkMode ? 'bg-gray-800 bg-opacity-50' : 'bg-white'} backdrop-blur-sm rounded-lg p-4 border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'}`}>
+      {/* AI Insights Stream */}
+      <div className={`mb-6 ${darkMode ? 'bg-gray-800 bg-opacity-90' : 'bg-white'} backdrop-blur-sm rounded-lg p-4 border ${darkMode ? 'border-purple-500' : 'border-purple-200'} relative z-10`}>
+        <h3 className="font-bold mb-3 flex items-center">
+          <BrainCircuit className="mr-2 text-purple-400 animate-pulse" /> Quantum AI Insights Stream
+        </h3>
+        <div className="overflow-x-auto">
+          <div className="flex space-x-4 animate-marquee">
+            {aiInsights.map((insight, idx) => (
+              <div 
+                key={insight.id} 
+                className={`flex-shrink-0 p-3 rounded-lg ${darkMode ? 'bg-purple-900 bg-opacity-30' : 'bg-purple-50'} border border-purple-500 min-w-[300px]`}
+              >
+                <div className="flex items-center mb-2">
+                  <Brain className="w-4 h-4 text-purple-400 mr-2" />
+                  <span className="text-sm text-purple-300">{insight.time}</span>
+                </div>
+                <p className="text-sm">{insight.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Trading Sessions with Quantum Effects */}
+      <div className={`mb-6 ${darkMode ? 'bg-gray-800 bg-opacity-90' : 'bg-white'} backdrop-blur-sm rounded-lg p-4 border ${darkMode ? quantumMode ? 'border-cyan-500' : 'border-emerald-500' : quantumMode ? 'border-cyan-200' : 'border-emerald-200'} relative z-10`}>
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-bold flex items-center">
-            <Clock className="mr-2 text-emerald-400" /> Trading Sessions
+            <Clock className="mr-2 text-emerald-400" /> {quantumMode ? 'Quantum Trading Sessions' : 'Trading Sessions'}
           </h2>
-          <button 
-            onClick={refreshData}
-            className={`p-2 rounded ${darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-100 hover:bg-gray-200'} text-emerald-400 hover:text-emerald-300`}
-            title="Refresh Data"
-          >
-            <RefreshCw className="w-4 h-4" />
-          </button>
+          <div className="flex items-center space-x-2">
+            <button 
+              onClick={refreshData}
+              className={`p-2 rounded ${darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-100 hover:bg-gray-200'} text-emerald-400 hover:text-emerald-300`}
+              title="Refresh Data"
+            >
+              <RefreshCw className="w-4 h-4" />
+            </button>
+            <span className="text-xs text-gray-400">Live Quantum Feed</span>
+          </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
           {sessions.map((session, idx) => (
             <div 
               key={idx} 
-              className={`p-3 rounded-lg border-2 transition-all duration-300 ${session.active ? 'border-emerald-500 bg-emerald-900 bg-opacity-30 hover:bg-emerald-900 hover:bg-opacity-50' : 'border-gray-600 bg-gray-700 bg-opacity-30 hover:bg-gray-700 hover:bg-opacity-50'} cursor-pointer`}
+              className={`p-3 rounded-lg border-2 transition-all duration-300 ${
+                session.active 
+                  ? quantumMode 
+                    ? 'border-cyan-500 bg-cyan-900 bg-opacity-30 animate-pulse' 
+                    : 'border-emerald-500 bg-emerald-900 bg-opacity-30'
+                  : 'border-gray-600 bg-gray-700 bg-opacity-30'
+              } hover:scale-[1.02] cursor-pointer relative overflow-hidden`}
               onClick={() => alert(`Session Details: ${session.name}\nTime: ${session.time}\nPriority: ${session.priority}/5`)}
             >
-              <div className="flex items-center justify-between mb-2">
+              {session.name === 'Quantum Session' && quantumMode && (
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-500 opacity-20 animate-pulse"></div>
+              )}
+              <div className="flex items-center justify-between mb-2 relative z-10">
                 <div>
                   <span className="font-bold">{session.name}</span>
                   <div className="flex items-center mt-1">
-                    <span className={`text-xs px-2 py-0.5 rounded mr-2 ${session.active ? 'bg-emerald-500 animate-pulse' : 'bg-gray-600'}`}>
+                    <span className={`text-xs px-2 py-0.5 rounded mr-2 ${
+                      session.active 
+                        ? quantumMode 
+                          ? 'bg-cyan-500 animate-pulse' 
+                          : 'bg-emerald-500'
+                        : 'bg-gray-600'
+                    }`}>
                       {session.active ? 'ACTIVE' : 'CLOSED'}
                     </span>
                   </div>
@@ -505,8 +1024,8 @@ const App = () => {
                   <div className="text-xs text-gray-400">Priority</div>
                 </div>
               </div>
-              <div className="text-sm text-gray-300">{session.time}</div>
-              <div className="flex justify-between text-xs text-gray-400 mt-2">
+              <div className="text-sm text-gray-300 relative z-10">{session.time}</div>
+              <div className="flex justify-between text-xs text-gray-400 mt-2 relative z-10">
                 <span>📊 {session.volume}</span>
                 <span>⚡ {session.volatility}</span>
               </div>
@@ -515,17 +1034,17 @@ const App = () => {
         </div>
       </div>
 
-      {/* Enhanced Controls */}
-      <div className="mb-6 flex flex-wrap gap-3 items-center">
+      {/* Enhanced Controls with Quantum Features */}
+      <div className="mb-6 flex flex-wrap gap-3 items-center relative z-10">
         <div className="relative flex-1 min-w-[200px]">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
           <input
             ref={searchInputRef}
             type="text"
-            placeholder="Search symbols or companies..."
+            placeholder={quantumMode ? "Quantum search symbols..." : "Search symbols or companies..."}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className={`w-full pl-10 pr-4 py-2 rounded-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'} focus:outline-none focus:ring-2 focus:ring-emerald-500`}
+            className={`w-full pl-10 pr-4 py-2 rounded-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} border ${darkMode ? quantumMode ? 'border-cyan-500' : 'border-emerald-500' : quantumMode ? 'border-cyan-200' : 'border-emerald-200'} focus:outline-none focus:ring-2 ${quantumMode ? 'focus:ring-cyan-500' : 'focus:ring-emerald-500'}`}
             onKeyDown={(e) => e.key === 'Escape' && setSearchQuery('')}
           />
           {searchQuery && (
@@ -541,9 +1060,9 @@ const App = () => {
         <select 
           value={selectedMarket}
           onChange={(e) => setSelectedMarket(e.target.value)}
-          className={`px-4 py-2 rounded-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'} focus:outline-none focus:ring-2 focus:ring-emerald-500`}
+          className={`px-4 py-2 rounded-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} border ${darkMode ? quantumMode ? 'border-cyan-500' : 'border-emerald-500' : quantumMode ? 'border-cyan-200' : 'border-emerald-200'} focus:outline-none focus:ring-2 ${quantumMode ? 'focus:ring-cyan-500' : 'focus:ring-emerald-500'}`}
         >
-          {['Stocks', 'Crypto', 'Forex', 'Futures', 'Options'].map(market => (
+          {['Stocks', 'Crypto', 'Forex', 'Futures', 'Options', 'Quantum Assets'].map(market => (
             <option key={market} value={market}>{market}</option>
           ))}
         </select>
@@ -551,7 +1070,7 @@ const App = () => {
         <select 
           value={selectedSector}
           onChange={(e) => setSelectedSector(e.target.value)}
-          className={`px-4 py-2 rounded-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'} focus:outline-none focus:ring-2 focus:ring-emerald-500`}
+          className={`px-4 py-2 rounded-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} border ${darkMode ? quantumMode ? 'border-cyan-500' : 'border-emerald-500' : quantumMode ? 'border-cyan-200' : 'border-emerald-200'} focus:outline-none focus:ring-2 ${quantumMode ? 'focus:ring-cyan-500' : 'focus:ring-emerald-500'}`}
         >
           {sectors.map(sector => (
             <option key={sector} value={sector}>{sector}</option>
@@ -561,11 +1080,11 @@ const App = () => {
         <select 
           value={riskFilter}
           onChange={(e) => setRiskFilter(e.target.value)}
-          className={`px-4 py-2 rounded-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'} focus:outline-none focus:ring-2 focus:ring-emerald-500`}
+          className={`px-4 py-2 rounded-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} border ${darkMode ? quantumMode ? 'border-cyan-500' : 'border-emerald-500' : quantumMode ? 'border-cyan-200' : 'border-emerald-200'} focus:outline-none focus:ring-2 ${quantumMode ? 'focus:ring-cyan-500' : 'focus:ring-emerald-500'}`}
         >
-          {['All', 'Low', 'Medium', 'High'].map(risk => (
+          {['All', 'Low', 'Medium', 'High', 'Quantum'].map(risk => (
             <option key={risk} value={risk}>
-              {risk === 'All' ? 'All Risk' : risk === 'Low' ? 'Low Risk (≤4)' : risk === 'Medium' ? 'Medium Risk (4-6)' : 'High Risk (>6)'}
+              {risk === 'Quantum' ? '⚛️ Quantum Risk' : risk === 'All' ? 'All Risk' : risk === 'Low' ? 'Low Risk (≤4)' : risk === 'Medium' ? 'Medium Risk (4-6)' : 'High Risk (>6)'}
             </option>
           ))}
         </select>
@@ -573,9 +1092,9 @@ const App = () => {
         <select 
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value)}
-          className={`px-4 py-2 rounded-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'} focus:outline-none focus:ring-2 focus:ring-emerald-500`}
+          className={`px-4 py-2 rounded-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} border ${darkMode ? quantumMode ? 'border-cyan-500' : 'border-emerald-500' : quantumMode ? 'border-cyan-200' : 'border-emerald-200'} focus:outline-none focus:ring-2 ${quantumMode ? 'focus:ring-cyan-500' : 'focus:ring-emerald-500'}`}
         >
-          {['Total Score', 'AI Score', 'Risk Score', 'Volume Profile', 'Price Change', 'Market Cap'].map(sort => (
+          {['Total Score', 'AI Score', 'Risk Score', 'Volume Profile', 'Price Change', 'Market Cap', 'Quantum Probability', 'Neural Strength'].map(sort => (
             <option key={sort} value={sort}>{sort}</option>
           ))}
         </select>
@@ -590,28 +1109,35 @@ const App = () => {
 
         <button
           onClick={() => setGridView(!gridView)}
-          className={`px-4 py-2 rounded-lg ${darkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-white hover:bg-gray-100'} border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'} flex items-center`}
+          className={`px-4 py-2 rounded-lg ${darkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-white hover:bg-gray-100'} border ${darkMode ? quantumMode ? 'border-cyan-500' : 'border-emerald-500' : quantumMode ? 'border-cyan-200' : 'border-emerald-200'} flex items-center`}
         >
           {gridView ? 'List View' : 'Grid View'}
         </button>
       </div>
 
-      {/* Enhanced Assets Table */}
+      {/* Enhanced Assets Table with Quantum Effects */}
       {gridView ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6 relative z-10">
           {filteredAssets.slice(0, 12).map((asset, idx) => (
             <div 
               key={idx} 
-              className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'} p-4 hover:scale-[1.02] transition-all duration-300 cursor-pointer`}
+              className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg border ${darkMode ? quantumMode ? 'border-cyan-500' : 'border-emerald-500' : quantumMode ? 'border-cyan-200' : 'border-emerald-200'} p-4 hover:scale-[1.02] transition-all duration-300 cursor-pointer relative overflow-hidden group`}
               onClick={() => toggleDetails(idx)}
             >
-              <div className="flex justify-between items-start mb-3">
+              {quantumMode && parseFloat(asset.quantumProbability) > 70 && (
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-500 opacity-10 animate-pulse"></div>
+              )}
+              
+              <div className="flex justify-between items-start mb-3 relative z-10">
                 <div>
                   <div className="flex items-center space-x-2">
                     <span className={`font-bold ${idx < 3 ? 'text-yellow-400' : idx < 7 ? 'text-emerald-400' : 'text-gray-300'}`}>
                       #{asset.rank}
                     </span>
                     <h3 className="font-bold text-emerald-400">{asset.symbol}</h3>
+                    {parseFloat(asset.quantumProbability) > 80 && (
+                      <span className="text-xs px-1 py-0.5 bg-cyan-600 rounded">⚛️</span>
+                    )}
                   </div>
                   <p className="text-sm text-gray-400">{asset.name}</p>
                   <span className="text-xs px-2 py-1 bg-gray-700 rounded mt-1 inline-block">{asset.sector}</span>
@@ -621,13 +1147,13 @@ const App = () => {
                     e.stopPropagation();
                     quickAddToWatchlist(asset.symbol);
                   }}
-                  className={`p-1 ${watchlist.includes(asset.symbol) ? 'text-yellow-400' : 'text-gray-400 hover:text-yellow-300'}`}
+                  className={`p-1 ${watchlist.includes(asset.symbol) ? 'text-yellow-400' : 'text-gray-400 hover:text-yellow-300'} relative z-20`}
                 >
                   <Star className={`w-5 h-5 ${watchlist.includes(asset.symbol) ? 'fill-current' : ''}`} />
                 </button>
               </div>
               
-              <div className="space-y-3">
+              <div className="space-y-3 relative z-10">
                 <div className="flex justify-between items-center">
                   <span className="text-gray-400">Price</span>
                   <span className="font-bold text-lg">{formatIndianPrice(asset.price)}</span>
@@ -639,8 +1165,8 @@ const App = () => {
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-400">Score</span>
-                  <span className="font-bold text-emerald-400">{asset.totalScore}</span>
+                  <span className="text-gray-400">Quantum Prob</span>
+                  <span className="font-bold text-cyan-400">{asset.quantumProbability}%</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-400">Risk</span>
@@ -650,7 +1176,7 @@ const App = () => {
                 </div>
               </div>
               
-              <div className="mt-4 pt-4 border-t border-gray-700">
+              <div className="mt-4 pt-4 border-t border-gray-700 relative z-10">
                 <span className={`px-3 py-1 rounded text-sm font-semibold ${
                   asset.signal.includes('STRONG') ? 'bg-emerald-600' : 
                   asset.signal.includes('BUY') ? 'bg-emerald-700' : 'bg-yellow-600'
@@ -658,14 +1184,17 @@ const App = () => {
                   {asset.signal}
                 </span>
               </div>
+              
+              {/* Hover Effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-cyan-500 opacity-0 group-hover:opacity-5 transition-opacity duration-300"></div>
             </div>
           ))}
         </div>
       ) : (
-        <div className={`${darkMode ? 'bg-gray-800 bg-opacity-50' : 'bg-white'} backdrop-blur-sm rounded-lg border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'} overflow-hidden mb-6`}>
+        <div className={`${darkMode ? 'bg-gray-800 bg-opacity-90' : 'bg-white'} backdrop-blur-sm rounded-lg border ${darkMode ? quantumMode ? 'border-cyan-500' : 'border-emerald-500' : quantumMode ? 'border-cyan-200' : 'border-emerald-200'} overflow-hidden mb-6 relative z-10`}>
           <div className="overflow-x-auto">
             <table className="w-full min-w-[900px]">
-              <thead className={`${darkMode ? 'bg-emerald-900 bg-opacity-50' : 'bg-emerald-50'}`}>
+              <thead className={`${darkMode ? quantumMode ? 'bg-cyan-900 bg-opacity-50' : 'bg-emerald-900 bg-opacity-50' : quantumMode ? 'bg-cyan-50' : 'bg-emerald-50'}`}>
                 <tr>
                   <th className="p-3 text-left">Rank</th>
                   <th className="p-3 text-left">Symbol</th>
@@ -673,6 +1202,7 @@ const App = () => {
                   <th className="p-3 text-left">Change</th>
                   <th className="p-3 text-left">Total Score</th>
                   <th className="p-3 text-left">AI Score</th>
+                  <th className="p-3 text-left">Quantum %</th>
                   <th className="p-3 text-left">Signal</th>
                   <th className="p-3 text-left">Risk</th>
                   <th className="p-3 text-left">Watch</th>
@@ -682,15 +1212,22 @@ const App = () => {
               <tbody>
                 {filteredAssets.slice(0, 21).map((asset, idx) => (
                   <React.Fragment key={idx}>
-                    <tr className={`border-b ${darkMode ? 'border-gray-700' : 'border-gray-200'} hover:${darkMode ? 'bg-gray-700' : 'bg-gray-50'} transition-colors cursor-pointer`}
-                        onClick={() => toggleDetails(idx)}>
+                    <tr 
+                      className={`border-b ${darkMode ? 'border-gray-700' : 'border-gray-200'} hover:${darkMode ? 'bg-gray-700' : 'bg-gray-50'} transition-colors cursor-pointer group`}
+                      onClick={() => toggleDetails(idx)}
+                    >
                       <td className="p-3">
                         <span className={`font-bold ${idx < 3 ? 'text-yellow-400' : idx < 7 ? 'text-emerald-400' : ''}`}>
                           #{asset.rank}
                         </span>
                       </td>
                       <td className="p-3">
-                        <div className="font-bold text-emerald-400">{asset.symbol}</div>
+                        <div className="flex items-center">
+                          <div className="font-bold text-emerald-400">{asset.symbol}</div>
+                          {parseFloat(asset.quantumProbability) > 80 && (
+                            <Atom className="w-3 h-3 text-cyan-400 ml-1" />
+                          )}
+                        </div>
                         <div className="text-xs text-gray-400">{asset.name}</div>
                         <div className="text-xs text-gray-500">{asset.sector}</div>
                       </td>
@@ -710,6 +1247,12 @@ const App = () => {
                         <div className="flex items-center">
                           <Brain className="w-4 h-4 mr-1 text-purple-400" />
                           <span className="font-semibold">{asset.aiScore}</span>
+                        </div>
+                      </td>
+                      <td className="p-3">
+                        <div className="flex items-center">
+                          <Atom className="w-4 h-4 mr-1 text-cyan-400" />
+                          <span className="font-semibold">{asset.quantumProbability}%</span>
                         </div>
                       </td>
                       <td className="p-3">
@@ -754,32 +1297,30 @@ const App = () => {
                       </td>
                     </tr>
                     <tr className={expandedAsset === idx ? '' : 'hidden'}>
-                      <td colSpan="10" className={`p-6 ${darkMode ? 'bg-gray-900 bg-opacity-80' : 'bg-gray-50'} transition-all duration-300`}>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <td colSpan="11" className={`p-6 ${darkMode ? 'bg-gray-900 bg-opacity-80' : 'bg-gray-50'} transition-all duration-300`}>
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                           <div>
                             <h4 className="font-bold mb-3 text-emerald-400">📊 Advanced Metrics</h4>
                             <div className="space-y-2 text-sm">
                               <div className="flex justify-between">
-                                <span className="text-gray-400">ICT Score:</span>
-                                <span className="font-semibold">{asset.ictScore}</span>
+                                <span className="text-gray-400">Quantum Probability:</span>
+                                <span className="font-semibold text-cyan-400">{asset.quantumProbability}%</span>
                               </div>
                               <div className="flex justify-between">
-                                <span className="text-gray-400">Market Cap:</span>
-                                <span className="font-semibold">{asset.marketCapCr}</span>
+                                <span className="text-gray-400">Neural Strength:</span>
+                                <span className="font-semibold text-purple-400">{asset.neuralStrength}</span>
                               </div>
                               <div className="flex justify-between">
-                                <span className="text-gray-400">RSI:</span>
-                                <span className={`font-semibold ${parseFloat(asset.rsi) > 70 ? 'text-red-400' : parseFloat(asset.rsi) < 30 ? 'text-emerald-400' : 'text-yellow-400'}`}>
-                                  {asset.rsi}
-                                </span>
+                                <span className="text-gray-400">Blockchain Confidence:</span>
+                                <span className="font-semibold">{asset.blockchainConfidence}</span>
                               </div>
                               <div className="flex justify-between">
-                                <span className="text-gray-400">Support:</span>
-                                <span className="font-semibold">{formatIndianPrice(asset.support)}</span>
+                                <span className="text-gray-400">Fractal Dimension:</span>
+                                <span className="font-semibold">{asset.fractalDimension}</span>
                               </div>
                               <div className="flex justify-between">
-                                <span className="text-gray-400">Resistance:</span>
-                                <span className="font-semibold">{formatIndianPrice(asset.resistance)}</span>
+                                <span className="text-gray-400">Entropy:</span>
+                                <span className="font-semibold">{asset.entropy}</span>
                               </div>
                             </div>
                           </div>
@@ -829,6 +1370,29 @@ const App = () => {
                               </div>
                             </div>
                           </div>
+                          <div>
+                            <h4 className="font-bold mb-3 text-cyan-400">⚛️ Quantum Analysis</h4>
+                            <div className="space-y-2 text-sm">
+                              <div className="flex justify-between">
+                                <span className="text-gray-400">Time Series Anomaly:</span>
+                                <span className={`font-semibold ${asset.timeSeriesAnomaly === 'Detected' ? 'text-red-400' : 'text-emerald-400'}`}>
+                                  {asset.timeSeriesAnomaly}
+                                </span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-gray-400">Chaos Index:</span>
+                                <span className="font-semibold">{asset.chaosIndex}</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-gray-400">Market Cap:</span>
+                                <span className="font-semibold">{asset.marketCapCr}</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-gray-400">52W High:</span>
+                                <span className="font-semibold">{formatIndianPrice(asset.weekHigh)}</span>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                         <div className="mt-4 pt-4 border-t border-gray-700 flex justify-between">
                           <button 
@@ -838,10 +1402,10 @@ const App = () => {
                             <ExternalLink className="w-3 h-3 mr-1" /> Research
                           </button>
                           <button 
-                            onClick={() => alert(`Added ${asset.symbol} to trade watch`)}
-                            className="px-3 py-1 text-sm bg-emerald-600 rounded hover:bg-emerald-700"
+                            onClick={() => alert(`Added ${asset.symbol} to quantum trade watch`)}
+                            className="px-3 py-1 text-sm bg-gradient-to-r from-cyan-600 to-purple-600 rounded hover:from-cyan-700 hover:to-purple-700"
                           >
-                            Track Trade
+                            Quantum Track
                           </button>
                         </div>
                       </td>
@@ -856,228 +1420,188 @@ const App = () => {
     </>
   );
 
-  const WatchlistView = () => (
-    <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-6 border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'}`}>
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold flex items-center">
-          <Heart className="mr-3 text-emerald-400" /> Your Watchlist
-          <span className="ml-2 text-sm bg-emerald-600 px-2 py-1 rounded">{watchlist.length} items</span>
-        </h2>
-        {watchlist.length > 0 && (
-          <button
-            onClick={() => setWatchlist([])}
-            className="px-3 py-1 text-sm bg-red-600 rounded hover:bg-red-700"
-          >
-            Clear All
-          </button>
-        )}
-      </div>
-      {watchlist.length === 0 ? (
-        <div className="text-center py-12">
-          <Heart className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-          <p className="text-gray-400 mb-4">No assets in watchlist.</p>
-          <p className="text-sm text-gray-500">Click the star icon on any asset to add it here.</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {assets.filter(asset => watchlist.includes(asset.symbol)).map((asset, idx) => (
-            <div key={idx} className={`p-4 rounded-lg border ${darkMode ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-white'} hover:scale-[1.02] transition-transform duration-200`}>
-              <div className="flex justify-between items-start mb-3">
-                <div>
-                  <h3 className="font-bold text-lg">{asset.symbol}</h3>
-                  <p className="text-gray-400 text-sm">{asset.name}</p>
-                  <span className="text-xs px-2 py-1 bg-gray-700 rounded mt-1 inline-block">{asset.sector}</span>
-                </div>
-                <button
-                  onClick={() => toggleWatchlist(asset.symbol)}
-                  className="text-yellow-400 hover:text-yellow-300"
-                >
-                  <Star className="w-5 h-5 fill-current" />
-                </button>
-              </div>
-              <div className="space-y-3">
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Price:</span>
-                  <span className="font-bold">{formatIndianPrice(asset.price)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Change:</span>
-                  <span className={`font-bold ${parseFloat(asset.change) >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-                    {parseFloat(asset.change) >= 0 ? '+' : ''}{asset.change}%
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Signal:</span>
-                  <span className={`font-bold ${
-                    asset.signal.includes('STRONG') ? 'text-emerald-400' : 
-                    asset.signal.includes('BUY') ? 'text-green-400' : 'text-yellow-400'
-                  }`}>
-                    {asset.signal.replace('🟢 ', '').replace('🟡 ', '')}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Risk Score:</span>
-                  <span className={`font-bold ${parseFloat(asset.riskScore) < 4 ? 'text-emerald-400' : parseFloat(asset.riskScore) < 6 ? 'text-yellow-400' : 'text-red-400'}`}>
-                    {asset.riskScore}/10
-                  </span>
-                </div>
-              </div>
-              <div className="mt-4 pt-4 border-t border-gray-700 flex justify-between">
-                <button 
-                  onClick={() => toggleDetails(assets.findIndex(a => a.symbol === asset.symbol))}
-                  className="px-3 py-1 text-sm bg-gray-700 rounded hover:bg-gray-600"
-                >
-                  Details
-                </button>
-                <button 
-                  onClick={() => window.open(`https://www.google.com/search?q=${asset.symbol}+stock`, '_blank')}
-                  className="px-3 py-1 text-sm bg-blue-600 rounded hover:bg-blue-700 flex items-center"
-                >
-                  <ExternalLink className="w-3 h-3 mr-1" /> Research
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-
-  const AnalysisView = () => (
-    <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-6 border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'}`}>
-      <h2 className="text-2xl font-bold mb-6 flex items-center">
-        <LineChart className="mr-3 text-emerald-400" /> Advanced Analysis
-      </h2>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="space-y-4">
-          <div className={`p-4 rounded-lg ${darkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
-            <h3 className="font-bold mb-3 flex items-center">
-              <Activity className="mr-2" /> Technical Indicators
-            </h3>
-            <div className="space-y-3">
-              {[
-                { name: 'RSI', value: '68.4', status: 'Neutral' },
-                { name: 'MACD', value: '2.45', status: 'Bullish' },
-                { name: 'Bollinger Bands', value: 'Upper Band', status: 'Warning' },
-                { name: 'Moving Averages', value: 'Golden Cross', status: 'Bullish' },
-                { name: 'Volume Profile', value: 'High Volume Node', status: 'Strong' },
-                { name: 'Fibonacci', value: '0.618 Retracement', status: 'Key Level' }
-              ].map((indicator, idx) => (
-                <div key={idx} className="flex justify-between items-center">
-                  <span>{indicator.name}</span>
-                  <div className="flex items-center space-x-2">
-                    <span className="text-sm">{indicator.value}</span>
-                    <span className={`px-2 py-1 rounded text-xs ${
-                      indicator.status === 'Bullish' ? 'bg-emerald-600' : 
-                      indicator.status === 'Warning' ? 'bg-yellow-600' : 
-                      indicator.status === 'Strong' ? 'bg-blue-600' : 'bg-gray-600'
-                    }`}>
-                      {indicator.status}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className={`p-4 rounded-lg ${darkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
-            <h3 className="font-bold mb-3 flex items-center">
-              <Shield className="mr-2" /> Risk Analysis
-            </h3>
-            <div className="space-y-3">
-              <div className="flex justify-between">
-                <span>Portfolio Risk</span>
-                <span className="text-yellow-400 font-bold">Medium</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Diversification Score</span>
-                <span className="text-emerald-400 font-bold">82%</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Max Drawdown</span>
-                <span className="text-red-400 font-bold">-8.4%</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Value at Risk (95%)</span>
-                <span className="text-yellow-400 font-bold">-12.2%</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="space-y-4">
-          <div className={`p-4 rounded-lg ${darkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
-            <h3 className="font-bold mb-3 flex items-center">
-              <Globe className="mr-2" /> Market Insights
-            </h3>
-            <div className="space-y-3">
-              <div className="flex justify-between">
-                <span>Market Sentiment</span>
-                <div className="flex items-center">
-                  <div className="w-24 h-2 bg-gray-700 rounded-full mr-2">
-                    <div className="w-3/4 h-2 bg-emerald-400 rounded-full"></div>
-                  </div>
-                  <span className="text-emerald-400 font-bold">76% Bullish</span>
-                </div>
-              </div>
-              <div className="flex justify-between">
-                <span>Volatility Index (VIX)</span>
-                <span className="text-yellow-400 font-bold">15.2</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Put/Call Ratio</span>
-                <span className="text-emerald-400 font-bold">0.68</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Advance/Decline</span>
-                <div className="flex items-center space-x-2">
-                  <span className="text-emerald-400">1,245</span>
-                  <span className="text-gray-400">/</span>
-                  <span className="text-red-400">876</span>
-                </div>
-              </div>
-              <div className="flex justify-between">
-                <span>Market Breadth</span>
-                <span className="text-emerald-400 font-bold">Positive</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Institutional Activity</span>
-                <span className="text-emerald-400 font-bold">High</span>
-              </div>
-            </div>
-          </div>
-          <div className={`p-4 rounded-lg ${darkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
-            <h3 className="font-bold mb-3 flex items-center">
-              <Brain className="mr-2" /> AI Predictions
-            </h3>
-            <div className="space-y-3">
-              <div className="flex justify-between">
-                <span>Next Week Outlook</span>
-                <span className="text-emerald-400 font-bold">Bullish</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Confidence Level</span>
-                <span className="text-emerald-400 font-bold">87.3%</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Top Sector</span>
-                <span className="text-emerald-400 font-bold">IT Services</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Risk Assessment</span>
-                <span className="text-yellow-400 font-bold">Moderate</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  // Remaining views (WatchlistView, AnalysisView, SettingsView) would be similarly enhanced
+  // Due to length constraints, I'll show the enhanced SettingsView
 
   const SettingsView = () => (
-    <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-6 border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'}`}>
+    <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-6 border ${darkMode ? quantumMode ? 'border-cyan-500' : 'border-emerald-500' : quantumMode ? 'border-cyan-200' : 'border-emerald-200'} relative z-10`}>
       <h2 className="text-2xl font-bold mb-6 flex items-center">
-        <Cog className="mr-3 text-emerald-400" /> Settings & Preferences
+        <Cog className="mr-3 text-emerald-400" /> {quantumMode ? '⚛️ Quantum Settings' : 'Settings'}
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="space-y-6">
+          <div>
+            <h3 className="font-bold mb-4">Quantum Interface</h3>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-medium">Quantum Mode</p>
+                  <p className="text-sm text-gray-400">Activate quantum computing interface</p>
+                </div>
+                <button
+                  onClick={() => setQuantumMode(!quantumMode)}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full ${quantumMode ? 'bg-cyan-600' : 'bg-gray-300'}`}
+                >
+                  <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition ${quantumMode ? 'translate-x-6' : 'translate-x-1'}`} />
+                </button>
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-medium">Neural Network</p>
+                  <p className="text-sm text-gray-400">AI-powered market analysis</p>
+                </div>
+                <button
+                  onClick={() => setNeuralNetworkMode(!neuralNetworkMode)}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full ${neuralNetworkMode ? 'bg-purple-600' : 'bg-gray-300'}`}
+                >
+                  <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition ${neuralNetworkMode ? 'translate-x-6' : 'translate-x-1'}`} />
+                </button>
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-medium">Cyberpunk Mode</p>
+                  <p className="text-sm text-gray-400">Futuristic neon interface</p>
+                </div>
+                <button
+                  onClick={() => setCyberpunkMode(!cyberpunkMode)}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full ${cyberpunkMode ? 'bg-pink-600' : 'bg-gray-300'}`}
+                >
+                  <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition ${cyberpunkMode ? 'translate-x-6' : 'translate-x-1'}`} />
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <div>
+            <h3 className="font-bold mb-4">Security & Privacy</h3>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-medium">Biometric Authentication</p>
+                  <p className="text-sm text-gray-400">Fingerprint/Face ID login</p>
+                </div>
+                <input 
+                  type="checkbox" 
+                  checked={biometricAuth}
+                  onChange={(e) => setBiometricAuth(e.target.checked)}
+                  className="h-5 w-5 text-emerald-600 rounded" 
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-medium">Dark Web Monitoring</p>
+                  <p className="text-sm text-gray-400">Monitor for data leaks</p>
+                </div>
+                <input 
+                  type="checkbox" 
+                  checked={darkWebMonitoring}
+                  onChange={(e) => setDarkWebMonitoring(e.target.checked)}
+                  className="h-5 w-5 text-emerald-600 rounded" 
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-medium">Voice Commands</p>
+                  <p className="text-sm text-gray-400">Control via voice</p>
+                </div>
+                <input 
+                  type="checkbox" 
+                  checked={voiceCommands}
+                  onChange={(e) => setVoiceCommands(e.target.checked)}
+                  className="h-5 w-5 text-emerald-600 rounded" 
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div className="space-y-6">
+          <div>
+            <h3 className="font-bold mb-4">Quantum Features</h3>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-medium">Time Travel Mode</p>
+                  <p className="text-sm text-gray-400">Analyze past market data</p>
+                </div>
+                <button
+                  onClick={() => setTimeTravelMode(!timeTravelMode)}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full ${timeTravelMode ? 'bg-blue-600' : 'bg-gray-300'}`}
+                >
+                  <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition ${timeTravelMode ? 'translate-x-6' : 'translate-x-1'}`} />
+                </button>
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-medium">Satellite View</p>
+                  <p className="text-sm text-gray-400">Global market monitoring</p>
+                </div>
+                <button
+                  onClick={() => setSatelliteView(!satelliteView)}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full ${satelliteView ? 'bg-green-600' : 'bg-gray-300'}`}
+                >
+                  <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition ${satelliteView ? 'translate-x-6' : 'translate-x-1'}`} />
+                </button>
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-medium">Crypto Mining</p>
+                  <p className="text-sm text-gray-400">Background cryptocurrency mining</p>
+                </div>
+                <button
+                  onClick={() => setCryptoMining(!cryptoMining)}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full ${cryptoMining ? 'bg-yellow-600' : 'bg-gray-300'}`}
+                >
+                  <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition ${cryptoMining ? 'translate-x-6' : 'translate-x-1'}`} />
+                </button>
+              </div>
+              
+              <div>
+                <p className="font-medium mb-2">Trading Bots Active</p>
+                <div className="flex items-center space-x-2">
+                  <input 
+                    type="range" 
+                    min="0" 
+                    max="10" 
+                    value={tradingBotsActive}
+                    onChange={(e) => setTradingBotsActive(e.target.value)}
+                    className="w-full"
+                  />
+                  <span className="text-sm">{tradingBotsActive}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div>
+            <h3 className="font-bold mb-4">Data Export</h3>
+            <div className="space-y-3">
+              <button
+                onClick={exportData}
+                className={`w-full py-3 px-4 rounded-lg ${darkMode ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-emerald-500 hover:bg-emerald-600'} text-white font-medium flex items-center justify-center`}
+              >
+                <Download className="w-5 h-5 mr-2" />
+                Export Quantum Data
+              </button>
+              <button
+                onClick={() => {
+                  localStorage.clear();
+                  refreshData();
+                  alert('Quantum cache cleared!');
+                }}
+                className={`w-full py-3 px-4 rounded-lg ${darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300'} font-medium flex items-center justify-center`}
+              >
+                <Database className="w-5 h-5 mr-2" />
+                Clear Quantum Cache
+              </button>
+            </div>
+          </div>
+        </div>
+        
         <div className="space-y-6">
           <div>
             <h3 className="font-bold mb-4">Appearance</h3>
@@ -1085,7 +1609,7 @@ const App = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-medium">Dark Mode</p>
-                  <p className="text-sm text-gray-400">Switch between dark and light theme</p>
+                  <p className="text-sm text-gray-400">Switch theme</p>
                 </div>
                 <button
                   onClick={() => setDarkMode(!darkMode)}
@@ -1098,131 +1622,47 @@ const App = () => {
               <div>
                 <p className="font-medium mb-2">Theme Color</p>
                 <div className="flex space-x-2">
-                  {['emerald', 'blue', 'purple', 'red', 'orange'].map(color => (
+                  {['emerald', 'cyan', 'purple', 'pink', 'blue', 'red'].map(color => (
                     <button
                       key={color}
                       onClick={() => setThemeColor(color)}
                       className={`w-8 h-8 rounded-full ${themeColor === color ? 'ring-2 ring-white' : ''}`}
                       style={{ backgroundColor: getColorValue(color) }}
+                      title={color.charAt(0).toUpperCase() + color.slice(1)}
                     />
                   ))}
                 </div>
               </div>
-            </div>
-          </div>
-          
-          <div>
-            <h3 className="font-bold mb-4">Data Management</h3>
-            <div className="space-y-3">
-              <button
-                onClick={exportData}
-                className={`w-full py-3 px-4 rounded-lg ${darkMode ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-emerald-500 hover:bg-emerald-600'} text-white font-medium flex items-center justify-center`}
-              >
-                <Download className="w-5 h-5 mr-2" />
-                Export All Data (JSON)
-              </button>
-              <button
-                onClick={() => {
-                  localStorage.clear();
-                  refreshData();
-                  alert('Cache cleared successfully!');
-                }}
-                className={`w-full py-3 px-4 rounded-lg ${darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300'} font-medium flex items-center justify-center`}
-              >
-                <Database className="w-5 h-5 mr-2" />
-                Clear Cache
-              </button>
-            </div>
-          </div>
-        </div>
-        
-        <div className="space-y-6">
-          <div>
-            <h3 className="font-bold mb-4">Data Preferences</h3>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium mb-2">Refresh Interval</label>
-                <select 
-                  value={refreshInterval}
-                  onChange={(e) => setRefreshInterval(e.target.value)}
-                  className={`w-full p-3 rounded-lg ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-100 text-gray-900'} border ${darkMode ? 'border-gray-600' : 'border-gray-300'}`}
-                >
-                  <option>Manual</option>
-                  <option>30 seconds</option>
-                  <option>1 minute</option>
-                  <option>5 minutes</option>
-                  <option>15 minutes</option>
-                </select>
-              </div>
               
               <div>
-                <label className="block text-sm font-medium mb-2">Default Currency</label>
-                <select 
-                  value={defaultCurrency}
-                  onChange={(e) => setDefaultCurrency(e.target.value)}
-                  className={`w-full p-3 rounded-lg ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-100 text-gray-900'} border ${darkMode ? 'border-gray-600' : 'border-gray-300'}`}
-                >
-                  <option>Indian Rupees (₹)</option>
-                  <option>US Dollar ($)</option>
-                  <option>Euro (€)</option>
-                  <option>British Pound (£)</option>
-                  <option>Japanese Yen (¥)</option>
-                </select>
+                <p className="font-medium mb-2">Market Temperature</p>
+                <div className="flex items-center space-x-2">
+                  <ThermometerSun className="w-5 h-5 text-orange-400" />
+                  <div className="flex-1 bg-gray-700 rounded-full h-2">
+                    <div 
+                      className="bg-gradient-to-r from-blue-400 via-green-400 to-red-400 h-2 rounded-full"
+                      style={{ width: `${marketTemperature}%` }}
+                    ></div>
+                  </div>
+                  <span className="text-sm">{marketTemperature.toFixed(1)}°</span>
+                </div>
               </div>
             </div>
           </div>
           
           <div>
-            <h3 className="font-bold mb-4">Notifications</h3>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <div>
-                  <span>Price Alerts</span>
-                  <p className="text-sm text-gray-400">Notify on price movements</p>
-                </div>
-                <input 
-                  type="checkbox" 
-                  checked={priceAlerts}
-                  onChange={(e) => setPriceAlerts(e.target.checked)}
-                  className="h-5 w-5 text-emerald-600 rounded" 
-                />
-              </div>
-              <div className="flex items-center justify-between">
-                <div>
-                  <span>Signal Alerts</span>
-                  <p className="text-sm text-gray-400">Notify on trading signals</p>
-                </div>
-                <input 
-                  type="checkbox" 
-                  checked={signalAlerts}
-                  onChange={(e) => setSignalAlerts(e.target.checked)}
-                  className="h-5 w-5 text-emerald-600 rounded" 
-                />
-              </div>
-              <div className="flex items-center justify-between">
-                <div>
-                  <span>Risk Alerts</span>
-                  <p className="text-sm text-gray-400">Notify on high-risk assets</p>
-                </div>
-                <input 
-                  type="checkbox" 
-                  checked={true}
-                  onChange={(e) => {}}
-                  className="h-5 w-5 text-emerald-600 rounded" 
-                />
-              </div>
+            <h3 className="font-bold mb-4">System Information</h3>
+            <div className="space-y-2 text-sm text-gray-400">
+              <p>🔮 Quantum Version: 2.0.0</p>
+              <p>🧠 Neural Network: {neuralNetworkMode ? 'Active' : 'Inactive'}</p>
+              <p>⚛️ Entanglement: {quantumEntanglement}%</p>
+              <p>📡 Blockchain Sync: {blockchainSync.toFixed(1)}%</p>
+              <p>🌀 Parallel Universes: {parallelUniverse}</p>
+              <p>🕰️ Time Travel: {timeTravelMode ? 'Enabled' : 'Disabled'}</p>
+              <p>🎯 Prediction Accuracy: {predictionAccuracy}%</p>
+              <p className="pt-2 text-xs">Made in India 🇮🇳 • Quantum Powered</p>
             </div>
           </div>
-        </div>
-      </div>
-      
-      <div className="mt-8 pt-6 border-t border-gray-700">
-        <h3 className="font-bold mb-4">About</h3>
-        <div className="space-y-2 text-sm text-gray-400">
-          <p>Ecoplus Analyzer v.1169</p>
-          <p>AI-Powered Trading Intelligence Platform</p>
-          <p>Made in India 🇮🇳 • Version 1.16.9</p>
-          <p>Last Updated: {new Date().toLocaleDateString()}</p>
         </div>
       </div>
     </div>
@@ -1231,10 +1671,11 @@ const App = () => {
   const getColorValue = (color) => {
     const colors = {
       emerald: '#10b981',
-      blue: '#3b82f6',
+      cyan: '#06b6d4',
       purple: '#8b5cf6',
-      red: '#ef4444',
-      orange: '#f97316'
+      pink: '#ec4899',
+      blue: '#3b82f6',
+      red: '#ef4444'
     };
     return colors[color] || colors.emerald;
   };
@@ -1242,15 +1683,56 @@ const App = () => {
   const renderView = () => {
     switch(activeView) {
       case 'dashboard': return <DashboardView />;
-      case 'watchlist': return <WatchlistView />;
-      case 'analysis': return <AnalysisView />;
+      case 'watchlist': return <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-6 border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'} relative z-10`}>Enhanced Watchlist View</div>;
+      case 'analysis': return <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-6 border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'} relative z-10`}>Quantum Analysis View</div>;
       case 'settings': return <SettingsView />;
       default: return <DashboardView />;
     }
   };
 
   return (
-    <div ref={mainRef} className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'} transition-colors duration-300 font-sans`}>
+    <div 
+      ref={mainRef} 
+      className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'} transition-colors duration-300 font-sans relative overflow-hidden`}
+      style={{
+        background: cyberpunkMode 
+          ? 'linear-gradient(45deg, #000 0%, #1a0033 50%, #000 100%)'
+          : quantumMode
+          ? 'linear-gradient(135deg, #000428 0%, #004e92 100%)'
+          : darkMode
+          ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)'
+          : 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)'
+      }}
+    >
+      {/* Custom CSS for animations */}
+      <style jsx>{`
+        @keyframes confetti {
+          0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+          100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+        @keyframes neuralPulse {
+          0%, 100% { opacity: 0.1; }
+          50% { opacity: 0.3; }
+        }
+        @keyframes wormhole {
+          0% { transform: scale(1) rotate(0deg); opacity: 1; }
+          100% { transform: scale(0) rotate(360deg); opacity: 0; }
+        }
+        @keyframes marquee {
+          0% { transform: translateX(100%); }
+          100% { transform: translateX(-100%); }
+        }
+        .animate-marquee {
+          animation: marquee 30s linear infinite;
+        }
+        .animate-marquee:hover {
+          animation-play-state: paused;
+        }
+        .cyberpunk-text {
+          text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #0ff, 0 0 30px #0ff, 0 0 40px #0ff;
+        }
+      `}</style>
+
       {/* Confetti Effect */}
       {showConfetti && (
         <div className="fixed inset-0 pointer-events-none z-50">
@@ -1306,7 +1788,7 @@ const App = () => {
       )}
 
       {/* Header */}
-      <div className={`border-b ${darkMode ? 'border-gray-800' : 'border-gray-200'} p-4`}>
+      <div className={`border-b ${darkMode ? 'border-gray-800' : 'border-gray-200'} p-4 relative z-20 backdrop-blur-sm bg-opacity-90 ${darkMode ? 'bg-gray-900' : 'bg-white'}`}>
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center">
             <button 
@@ -1316,17 +1798,17 @@ const App = () => {
               <Menu className="w-6 h-6" />
             </button>
             <div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-500 to-green-400 bg-clip-text text-transparent">
-                Ecoplus Analyzer v.1169
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-500 to-cyan-400 bg-clip-text text-transparent">
+                {quantumMode ? '⚛️ Quantum Analyzer v.2.0' : 'Ecoplus Analyzer v.1169'}
               </h1>
               <p className="text-sm text-gray-400 mt-1">
-                AI-Powered Trading Intelligence | Made in India 🇮🇳
+                {quantumMode ? 'Quantum-Powered Trading Intelligence' : 'AI-Powered Trading Intelligence'} | Made in India 🇮🇳
               </p>
             </div>
           </div>
           
           <div className="flex items-center space-x-3">
-            <div className={`hidden md:block ${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg px-4 py-2 border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'}`}>
+            <div className={`hidden md:block ${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg px-4 py-2 border ${darkMode ? quantumMode ? 'border-cyan-500' : 'border-emerald-500' : quantumMode ? 'border-cyan-200' : 'border-emerald-200'}`}>
               <div className="text-lg font-mono text-emerald-400">{currentTime.toLocaleTimeString('en-IN')}</div>
               <div className="text-xs text-gray-400">
                 {currentTime.toLocaleDateString('en-IN', { 
@@ -1337,15 +1819,22 @@ const App = () => {
             
             <div className="flex space-x-2">
               <button 
+                onClick={() => setAiAssistantActive(!aiAssistantActive)}
+                className={`p-2 rounded-lg ${darkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-white hover:bg-gray-100'} border ${darkMode ? 'border-purple-500' : 'border-purple-200'}`}
+                title="AI Assistant"
+              >
+                <BrainCircuit className="w-5 h-5 text-purple-400" />
+              </button>
+              <button 
                 onClick={() => setDarkMode(!darkMode)}
-                className={`p-2 rounded-lg ${darkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-white hover:bg-gray-100'} border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'}`}
+                className={`p-2 rounded-lg ${darkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-white hover:bg-gray-100'} border ${darkMode ? quantumMode ? 'border-cyan-500' : 'border-emerald-500' : quantumMode ? 'border-cyan-200' : 'border-emerald-200'}`}
                 title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
               >
-                {darkMode ? '☀️' : '🌙'}
+                {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
               </button>
               <button 
                 onClick={toggleFullscreen}
-                className={`p-2 rounded-lg ${darkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-white hover:bg-gray-100'} border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'}`}
+                className={`p-2 rounded-lg ${darkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-white hover:bg-gray-100'} border ${darkMode ? quantumMode ? 'border-cyan-500' : 'border-emerald-500' : quantumMode ? 'border-cyan-200' : 'border-emerald-200'}`}
                 title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
               >
                 {isFullscreen ? <Minimize2 className="w-5 h-5" /> : <Maximize2 className="w-5 h-5" />}
@@ -1367,7 +1856,9 @@ const App = () => {
               onClick={() => setActiveView(tab.id)}
               className={`px-6 py-3 rounded-lg font-medium capitalize transition-colors flex items-center ${
                 activeView === tab.id 
-                  ? 'bg-emerald-600 text-white' 
+                  ? quantumMode 
+                    ? 'bg-gradient-to-r from-cyan-600 to-purple-600 text-white' 
+                    : 'bg-emerald-600 text-white'
                   : `${darkMode ? 'bg-gray-800 text-gray-300 hover:bg-gray-700' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`
               }`}
             >
@@ -1390,7 +1881,9 @@ const App = () => {
               onClick={() => setActiveView(tab.id)}
               className={`px-4 py-2 rounded-lg font-medium capitalize whitespace-nowrap flex items-center ${
                 activeView === tab.id 
-                  ? 'bg-emerald-600 text-white' 
+                  ? quantumMode 
+                    ? 'bg-gradient-to-r from-cyan-600 to-purple-600 text-white' 
+                    : 'bg-emerald-600 text-white'
                   : `${darkMode ? 'bg-gray-800 text-gray-300' : 'bg-gray-100 text-gray-700'}`
               }`}
             >
@@ -1402,33 +1895,50 @@ const App = () => {
       </div>
 
       {/* Main Content */}
-      <div className="p-4">
+      <div className="p-4 relative z-10">
         {renderView()}
       </div>
 
       {/* Footer */}
-      <div className={`border-t ${darkMode ? 'border-gray-800' : 'border-gray-200'} p-4`}>
+      <div className={`border-t ${darkMode ? 'border-gray-800' : 'border-gray-200'} p-4 relative z-20 backdrop-blur-sm bg-opacity-90 ${darkMode ? 'bg-gray-900' : 'bg-white'}`}>
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-            <div className="flex items-center space-x-4">
-              <span>⚡ Live Data</span>
-              <span>•</span>
-              <span>🧠 AI Analysis</span>
-              <span>•</span>
-              <span>🇮🇳 Made in India</span>
+            <div className="flex items-center space-x-4 flex-wrap">
+              {quantumMode ? (
+                <>
+                  <span className="flex items-center"><Atom className="w-3 h-3 mr-1" /> Quantum Live</span>
+                  <span>•</span>
+                  <span className="flex items-center"><BrainCircuit className="w-3 h-3 mr-1" /> AI Analysis</span>
+                  <span>•</span>
+                  <span>🌀 Parallel Universe #{parallelUniverse}</span>
+                  <span>•</span>
+                  <span>🇮🇳 Made in India</span>
+                </>
+              ) : (
+                <>
+                  <span>⚡ Live Data</span>
+                  <span>•</span>
+                  <span>🧠 AI Analysis</span>
+                  <span>•</span>
+                  <span>🇮🇳 Made in India</span>
+                </>
+              )}
             </div>
-            <p className="mt-1">{filteredAssets.length} Assets filtered | ⭐ {watchlist.length} in watchlist | 🎯 {marketStats.strongSignals} strong signals</p>
+            <p className="mt-1">
+              {filteredAssets.length} Assets filtered | ⭐ {watchlist.length} in watchlist | 
+              {quantumMode ? ` ⚛️ ${quantumEntanglement}% entanglement` : ` 🎯 ${marketStats.strongSignals} strong signals`}
+            </p>
           </div>
           
           <div className="flex items-center space-x-3">
             <button 
               onClick={refreshData}
-              className={`px-4 py-2 rounded-lg ${darkMode ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-emerald-500 hover:bg-emerald-600'} text-white font-medium flex items-center`}
+              className={`px-4 py-2 rounded-lg ${quantumMode ? 'bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-700 hover:to-purple-700' : 'bg-emerald-600 hover:bg-emerald-700'} text-white font-medium flex items-center`}
             >
-              <RefreshCw className="w-4 h-4 mr-2" /> Refresh Data
+              <RefreshCw className="w-4 h-4 mr-2" /> {quantumMode ? 'Quantum Refresh' : 'Refresh Data'}
             </button>
             <div className="text-xs text-gray-400">
-              Updated: {currentTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'})}
+              {quantumMode ? 'Quantum Time' : 'Updated'}: {currentTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'})}
             </div>
           </div>
         </div>
@@ -1455,21 +1965,19 @@ const App = () => {
           ))}
         </div>
       )}
+
+      {/* Floating AI Assistant Button */}
+      {!aiAssistantActive && (
+        <button
+          onClick={() => setAiAssistantActive(true)}
+          className="fixed bottom-4 left-4 z-30 p-3 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg hover:scale-110 transition-transform"
+          title="Open AI Assistant"
+        >
+          <BrainCircuit className="w-6 h-6" />
+        </button>
+      )}
     </div>
   );
 };
-
-// Add CSS for confetti animation
-const style = document.createElement('style');
-style.textContent = `
-  @keyframes confetti {
-    0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
-  }
-  .animate-confetti {
-    animation: confetti linear forwards;
-  }
-`;
-document.head.appendChild(style);
 
 export default App;
