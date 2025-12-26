@@ -20,9 +20,8 @@ const App = () => {
   const [riskFilter, setRiskFilter] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [autoRefresh, setAutoRefresh] = useState(true);
+  const [autoRefresh, setAutoRefresh] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [priceUpdates, setPriceUpdates] = useState({});
   
   // Settings state
   const [refreshInterval, setRefreshInterval] = useState('5 seconds');
@@ -31,123 +30,13 @@ const App = () => {
   const [signalAlerts, setSignalAlerts] = useState(true);
   
   const mainRef = useRef(null);
-  const detailsRefs = useRef({});
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
 
-  const sectors = ['All', 'AI/Semiconductors', 'Cloud/AI', 'FinTech', 'Biotech', 'Clean Energy', 'EV/Energy', 'Social/VR', 'Energy/Retail', 'Banking', 'Telecom', 'IT Services', 'NBFC', 'Engineering', 'Insurance', 'FMCG', 'FMCG/Cigarettes', 'Automobile', 'Pharma', 'Conglomerate', 'Power', 'Consumer Goods', 'Cement', 'Oil & Gas', 'Paints', 'Infrastructure', 'Mining', 'Financial Services', 'Defense', 'Steel', 'Capital Goods', 'Retail', 'Internet', 'Beverages', 'Cement/Textile', 'Finance', 'Real Estate', 'Aviation', 'Gas', 'Electricals', 'Chemicals', 'Metals', 'Renewable', 'Auto Parts', 'Explosives', 'Healthcare', 'Shipbuilding', 'IT', 'Textile', 'Blockchain', 'Smart Contract', 'Stablecoin', 'Payment', 'Exchange Token', 'Meme', 'Oracle', 'Interoperability', 'Exchange', 'L1 Blockchain', 'Layer 2', 'DEX', 'Web3', 'Privacy', 'Bitcoin L2', 'AI/DePIN', 'AI', 'Enterprise', 'Storage', 'Gaming', 'DeFi', 'Supply Chain', 'Web3 Indexing', 'Major', 'Minor', 'Exotic'];
-
-  // Fix: Realistic stock prices
-  const getRealisticPrice = (symbol, idx) => {
-    // Realistic price mapping for Indian stocks
-    const priceMap = {
-      'RELIANCE': 1560.00,
-      'HDFCBANK': 1650.00,
-      'BHARTIARTL': 875.00,
-      'TCS': 3500.00,
-      'ICICIBANK': 950.00,
-      'SBIN': 600.00,
-      'INFY': 1500.00,
-      'BAJFINANCE': 7200.00,
-      'LT': 3200.00,
-      'LICI': 850.00,
-      'HINDUNILVR': 2400.00,
-      'ITC': 430.00,
-      'HCLTECH': 1250.00,
-      'M&M': 1800.00,
-      'MARUTI': 10500.00,
-      'SUNPHARMA': 1250.00,
-      'ADANIENT': 3000.00,
-      'AXISBANK': 1050.00,
-      'NTPC': 320.00,
-      'TITAN': 3500.00,
-      'ULTRACEMCO': 9500.00,
-      'TATAMOTORS': 850.00,
-      'ONGC': 220.00,
-      'ASIANPAINT': 2900.00,
-      'KOTAKBANK': 1700.00,
-      'ADANIPORTS': 1250.00,
-      'COALINDIA': 430.00,
-      'BAJAJFINSV': 1600.00,
-      'HAL': 3800.00,
-      'POWERGRID': 280.00,
-      'BEL': 185.00,
-      'JSWSTEEL': 850.00,
-      'TATASTEEL': 140.00,
-      'ADANIPOWER': 500.00,
-      'SIEMENS': 4200.00,
-      'TRENT': 3500.00,
-      'ZOMATO': 150.00,
-      'VBL': 1200.00,
-      'GRASIM': 2100.00,
-      'BAJAJ-AUTO': 7500.00,
-      'IRFC': 160.00,
-      'PFC': 400.00,
-      'IOC': 120.00,
-      'DLF': 700.00,
-      'DMART': 3800.00,
-      'INDIGO': 3000.00,
-      'GAIL': 180.00,
-      'HAVELLS': 1400.00,
-      'PIDILITIND': 2500.00,
-      'TECHM': 1200.00,
-      'HINDALCO': 600.00,
-      'VEDL': 250.00,
-      'ABB': 5500.00,
-      'BANKBARODA': 220.00,
-      'PNB': 110.00,
-      'SHREECEM': 25000.00,
-      'ADANIGREEN': 1700.00,
-      'AMBUJACEM': 550.00,
-      'DRREDDY': 5800.00,
-      'CIPLA': 1400.00,
-      'BPCL': 600.00,
-      'TVSMOTOR': 2000.00,
-      'EICHERMOT': 4000.00,
-      'JINDALSTEL': 700.00,
-      'CHOLAFIN': 1200.00,
-      'HDFCLIFE': 600.00,
-      'SBILIFE': 1400.00,
-      'SHRIRAMFIN': 2400.00,
-      'TATAPOWER': 350.00,
-      'GODREJCP': 1100.00,
-      'HEROMOTOCO': 4500.00,
-      'CANBK': 500.00,
-      'POLYCAB': 4500.00,
-      'COLPAL': 2700.00,
-      'DABUR': 550.00,
-      'MCDOWELL-N': 1100.00,
-      'SRF': 2400.00,
-      'MARICO': 550.00,
-      'CUMMINSIND': 2000.00,
-      'TUBEINVEST': 3000.00,
-      'NAUKRI': 6000.00,
-      'MOTHERSON': 100.00,
-      'LODHA': 900.00,
-      'LUPIN': 1500.00,
-      'TORNTPHARM': 2500.00,
-      'SOLARINDS': 7000.00,
-      'BERGEPAINT': 500.00,
-      'RECLTD': 450.00,
-      'BOSCHLTD': 30000.00,
-      'MUTHOOTFIN': 1600.00,
-      'PRESTIGE': 800.00,
-      'MAXHEALTH': 650.00,
-      'PERSISTENT': 8500.00,
-      'MAZDOCK': 2500.00,
-      'APOLLOHOSP': 6000.00,
-      'ASHOKLEY': 180.00,
-      'OFSS': 5500.00,
-      'YESBANK': 25.00,
-      'IDFCFIRSTB': 80.00,
-      'PAGEIND': 36000.00,
-    };
-    
-    return priceMap[symbol] || (500 + idx * 50);
-  };
+  const sectors = ['All', 'Energy/Retail', 'Banking', 'Telecom', 'IT Services', 'NBFC', 'Engineering', 'Insurance', 'FMCG', 'FMCG/Cigarettes', 'Automobile', 'Pharma', 'Conglomerate', 'Power', 'Consumer Goods', 'Cement'];
 
   const formatIndianPrice = (price) => {
     const num = typeof price === 'string' ? parseFloat(price.replace(/[^0-9.-]+/g,"")) : price;
@@ -165,40 +54,35 @@ const App = () => {
 
   const generateAdvancedData = () => {
     const stocks = [
-      { symbol: 'RELIANCE', name: 'Reliance Industries', sector: 'Energy/Retail' },
-      { symbol: 'HDFCBANK', name: 'HDFC Bank', sector: 'Banking' },
-      { symbol: 'BHARTIARTL', name: 'Bharti Airtel', sector: 'Telecom' },
-      { symbol: 'TCS', name: 'TCS', sector: 'IT Services' },
-      { symbol: 'ICICIBANK', name: 'ICICI Bank', sector: 'Banking' },
-      { symbol: 'SBIN', name: 'State Bank of India', sector: 'Banking' },
-      { symbol: 'INFY', name: 'Infosys', sector: 'IT Services' },
-      { symbol: 'BAJFINANCE', name: 'Bajaj Finance', sector: 'NBFC' },
-      { symbol: 'LT', name: 'Larsen & Toubro', sector: 'Engineering' },
-      { symbol: 'LICI', name: 'LIC of India', sector: 'Insurance' },
-      { symbol: 'HINDUNILVR', name: 'Hindustan Unilever', sector: 'FMCG' },
-      { symbol: 'ITC', name: 'ITC', sector: 'FMCG/Cigarettes' },
-      { symbol: 'HCLTECH', name: 'HCL Technologies', sector: 'IT Services' },
-      { symbol: 'M&M', name: 'Mahindra & Mahindra', sector: 'Automobile' },
-      { symbol: 'MARUTI', name: 'Maruti Suzuki', sector: 'Automobile' },
-      { symbol: 'SUNPHARMA', name: 'Sun Pharma', sector: 'Pharma' },
-      { symbol: 'ADANIENT', name: 'Adani Enterprises', sector: 'Conglomerate' },
-      { symbol: 'AXISBANK', name: 'Axis Bank', sector: 'Banking' },
-      { symbol: 'NTPC', name: 'NTPC', sector: 'Power' },
-      { symbol: 'TITAN', name: 'Titan Company', sector: 'Consumer Goods' },
-      { symbol: 'ULTRACEMCO', name: 'UltraTech Cement', sector: 'Cement' },
+      { symbol: 'RELIANCE', name: 'Reliance Industries', sector: 'Energy/Retail', basePrice: 1560.60, baseChange: 0.15, marketCap: '21,09,105', weekHigh: 1581.30 },
+      { symbol: 'HDFCBANK', name: 'HDFC Bank', sector: 'Banking', basePrice: 992.00, baseChange: -0.52, marketCap: '7,60,379', weekHigh: 1020.50 },
+      { symbol: 'BHARTIARTL', name: 'Bharti Airtel', sector: 'Telecom', basePrice: 2106.00, baseChange: -0.83, marketCap: '12,61,762', weekHigh: 2174.50 },
+      { symbol: 'TCS', name: 'TCS', sector: 'IT Services', basePrice: 3276.80, baseChange: -1.27, marketCap: '11,86,835', weekHigh: 4322.95 },
+      { symbol: 'ICICIBANK', name: 'ICICI Bank', sector: 'Banking', basePrice: 1351.00, baseChange: -0.65, marketCap: '9,62,840', weekHigh: 1500.00 },
+      { symbol: 'SBIN', name: 'State Bank of India', sector: 'Banking', basePrice: 966.50, baseChange: -0.25, marketCap: '8,92,046', weekHigh: 999.00 },
+      { symbol: 'INFY', name: 'Infosys', sector: 'IT Services', basePrice: 1657.00, baseChange: -0.38, marketCap: '6,86,108', weekHigh: 1982.80 },
+      { symbol: 'BAJFINANCE', name: 'Bajaj Finance', sector: 'NBFC', basePrice: 7200.00, baseChange: 0.45, marketCap: '4,45,210', weekHigh: 7500.00 },
+      { symbol: 'LT', name: 'Larsen & Toubro', sector: 'Engineering', basePrice: 3200.00, baseChange: 0.78, marketCap: '4,40,000', weekHigh: 3450.00 },
+      { symbol: 'LICI', name: 'LIC of India', sector: 'Insurance', basePrice: 850.00, baseChange: -0.35, marketCap: '5,38,000', weekHigh: 925.00 },
+      { symbol: 'HINDUNILVR', name: 'Hindustan Unilever', sector: 'FMCG', basePrice: 2400.00, baseChange: 0.25, marketCap: '5,64,000', weekHigh: 2550.00 },
+      { symbol: 'ITC', name: 'ITC', sector: 'FMCG/Cigarettes', basePrice: 430.00, baseChange: 0.12, marketCap: '5,37,500', weekHigh: 460.00 },
+      { symbol: 'HCLTECH', name: 'HCL Technologies', sector: 'IT Services', basePrice: 1250.00, baseChange: -0.48, marketCap: '3,39,000', weekHigh: 1450.00 },
+      { symbol: 'M&M', name: 'Mahindra & Mahindra', sector: 'Automobile', basePrice: 1800.00, baseChange: 0.88, marketCap: '2,22,000', weekHigh: 1950.00 },
+      { symbol: 'MARUTI', name: 'Maruti Suzuki', sector: 'Automobile', basePrice: 10500.00, baseChange: -0.65, marketCap: '3,17,625', weekHigh: 11500.00 },
+      { symbol: 'SUNPHARMA', name: 'Sun Pharma', sector: 'Pharma', basePrice: 1250.00, baseChange: 0.32, marketCap: '3,00,000', weekHigh: 1350.00 },
+      { symbol: 'ADANIENT', name: 'Adani Enterprises', sector: 'Conglomerate', basePrice: 3000.00, baseChange: 1.25, marketCap: '3,45,000', weekHigh: 3200.00 },
+      { symbol: 'AXISBANK', name: 'Axis Bank', sector: 'Banking', basePrice: 1050.00, baseChange: -0.42, marketCap: '3,24,450', weekHigh: 1150.00 },
+      { symbol: 'NTPC', name: 'NTPC', sector: 'Power', basePrice: 320.00, baseChange: 0.18, marketCap: '3,10,400', weekHigh: 340.00 },
+      { symbol: 'TITAN', name: 'Titan Company', sector: 'Consumer Goods', basePrice: 3500.00, baseChange: 0.55, marketCap: '3,10,000', weekHigh: 3750.00 },
+      { symbol: 'ULTRACEMCO', name: 'UltraTech Cement', sector: 'Cement', basePrice: 9500.00, baseChange: -0.28, marketCap: '2,74,550', weekHigh: 10200.00 },
     ];
 
     return stocks.map((stock, idx) => {
-      const basePrice = getRealisticPrice(stock.symbol, idx);
-      const priceChange = ((Math.random() - 0.5) * 2); // Smaller change percentage
-      const newPrice = basePrice * (1 + priceChange/100);
-      const changePercent = priceChange.toFixed(2);
-      
       return {
         ...stock,
         rank: idx + 1,
-        price: newPrice.toFixed(2),
-        change: changePercent,
+        price: stock.basePrice.toFixed(2),
+        change: stock.baseChange.toFixed(2),
         volume: Math.floor(Math.random() * 10000000).toLocaleString(),
         totalScore: (95 - idx * 2 + Math.random() * 5).toFixed(1),
         aiScore: (85 + Math.random() * 15).toFixed(1),
@@ -206,18 +90,19 @@ const App = () => {
         sentimentScore: (70 + Math.random() * 30).toFixed(1),
         volumeProfile: ['Very High', 'High', 'Medium'][Math.floor(Math.random() * 3)],
         signal: idx < 7 ? '🟢 STRONG BUY' : idx < 14 ? '🟢 BUY' : '🟡 HOLD',
-        trend: Math.random() > 0.3 ? '🟢 BULLISH' : '🔴 BEARISH',
+        trend: stock.baseChange >= 0 ? '🟢 BULLISH' : '🔴 BEARISH',
         riskScore: (3 + Math.random() * 4).toFixed(1),
         nextOptimal: ['NY Kill Zone', 'London Kill Zone', 'Silver Bullet'][Math.floor(Math.random() * 3)],
-        institutionalFlow: Math.random() > 0.5 ? 'Buying' : 'Selling',
+        institutionalFlow: stock.baseChange >= 0 ? 'Buying' : 'Selling',
         darkPoolActivity: (Math.random() * 100).toFixed(1) + 'M',
         shortInterest: (Math.random() * 15).toFixed(1) + '%',
-        optionsFlow: Math.random() > 0.5 ? 'Bullish' : 'Neutral',
+        optionsFlow: stock.baseChange >= 0 ? 'Bullish' : 'Neutral',
         earningsDate: new Date(Date.now() + Math.random() * 90 * 24 * 60 * 60 * 1000).toLocaleDateString(),
         whaleActivity: Math.random() > 0.7 ? 'Detected' : 'Normal',
-        marketCap: (basePrice * (Math.random() * 100 + 1)).toFixed(1) + 'B',
+        marketCapCr: stock.marketCap + ' Cr',
         peRatio: (Math.random() * 50).toFixed(1),
-        dividendYield: (Math.random() * 3).toFixed(2) + '%'
+        dividendYield: (Math.random() * 3).toFixed(2) + '%',
+        weekHigh: stock.weekHigh.toFixed(2)
       };
     });
   };
@@ -258,17 +143,20 @@ const App = () => {
     if (!autoRefresh) return;
     
     const interval = setInterval(() => {
-      setAssets(generateAdvancedData());
-      
-      if (Math.random() > 0.7) {
-        const newAlert = {
-          id: Date.now(),
-          message: `Price alert: ${assets[Math.floor(Math.random() * assets.length)].symbol} moved ${Math.random() > 0.5 ? 'up' : 'down'} ${(Math.random() * 5).toFixed(2)}%`,
-          type: Math.random() > 0.5 ? 'info' : 'warning',
-          time: new Date().toLocaleTimeString()
-        };
-        setAlerts(prev => [newAlert, ...prev.slice(0, 4)]);
-      }
+      setAssets(prevAssets => {
+        const newAssets = generateAdvancedData();
+        if (Math.random() > 0.7) {
+          const randomAsset = newAssets[Math.floor(Math.random() * newAssets.length)];
+          const newAlert = {
+            id: Date.now(),
+            message: `Price alert: ${randomAsset.symbol} moved ${Math.random() > 0.5 ? 'up' : 'down'} ${(Math.random() * 5).toFixed(2)}%`,
+            type: Math.random() > 0.5 ? 'info' : 'warning',
+            time: new Date().toLocaleTimeString()
+          };
+          setAlerts(prev => [newAlert, ...prev.slice(0, 4)]);
+        }
+        return newAssets;
+      });
     }, 5000);
     
     return () => clearInterval(interval);
@@ -332,7 +220,6 @@ const App = () => {
     link.click();
   };
 
-  // Fix: Handle details expansion properly
   const toggleDetails = (index) => {
     if (expandedAsset === index) {
       setExpandedAsset(null);
@@ -386,7 +273,7 @@ const App = () => {
           </div>
         </div>
 
-        {/* Top Movers with Fixed Alignment */}
+        {/* Top Movers */}
         <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-4 border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'}`}>
           <h3 className="font-bold mb-3 flex items-center">
             <TrendingUp className="mr-2 text-emerald-400" /> Top Movers
@@ -507,7 +394,7 @@ const App = () => {
           onChange={(e) => setSelectedSector(e.target.value)}
           className={`px-4 py-2 rounded-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'} focus:outline-none focus:ring-2 focus:ring-emerald-500`}
         >
-          {sectors.slice(0, 10).map(sector => (
+          {sectors.map(sector => (
             <option key={sector} value={sector}>{sector}</option>
           ))}
         </select>
@@ -517,8 +404,10 @@ const App = () => {
           onChange={(e) => setRiskFilter(e.target.value)}
           className={`px-4 py-2 rounded-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'} focus:outline-none focus:ring-2 focus:ring-emerald-500`}
         >
-          {['All Risk', 'Low Risk (≤4)', 'Medium Risk (4-6)', 'High Risk (>6)'].map(risk => (
-            <option key={risk} value={risk}>{risk}</option>
+          {['All', 'Low', 'Medium', 'High'].map(risk => (
+            <option key={risk} value={risk}>
+              {risk === 'All' ? 'All Risk' : risk === 'Low' ? 'Low Risk (≤4)' : risk === 'Medium' ? 'Medium Risk (4-6)' : 'High Risk (>6)'}
+            </option>
           ))}
         </select>
 
@@ -533,7 +422,7 @@ const App = () => {
         </select>
       </div>
 
-      {/* Enhanced Assets Table with Fixed Details */}
+      {/* Enhanced Assets Table */}
       <div className={`${darkMode ? 'bg-gray-800 bg-opacity-50' : 'bg-white'} backdrop-blur-sm rounded-lg border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'} overflow-hidden mb-6`}>
         <div className="overflow-x-auto">
           <table className="w-full min-w-[900px]">
@@ -628,7 +517,11 @@ const App = () => {
                             </div>
                             <div className="flex justify-between">
                               <span className="text-gray-400">Market Cap:</span>
-                              <span className="font-semibold">{asset.marketCap}</span>
+                              <span className="font-semibold">{asset.marketCapCr}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-400">52W High:</span>
+                              <span className="font-semibold">{formatIndianPrice(asset.weekHigh)}</span>
                             </div>
                             <div className="flex justify-between">
                               <span className="text-gray-400">P/E Ratio:</span>
@@ -647,6 +540,10 @@ const App = () => {
                               <span className="text-gray-400">Short Interest:</span>
                               <span className="font-semibold">{asset.shortInterest}</span>
                             </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-400">Whale Activity:</span>
+                              <span className="font-semibold">{asset.whaleActivity}</span>
+                            </div>
                           </div>
                         </div>
                         <div>
@@ -654,11 +551,15 @@ const App = () => {
                           <div className="space-y-2 text-sm">
                             <div className="flex items-center">
                               <Target className="w-4 h-4 mr-2" />
-                              <span>Next optimal entry: {asset.nextOptimal}</span>
+                              <span>Next optimal: {asset.nextOptimal}</span>
                             </div>
                             <div className="flex items-center">
                               <Activity className="w-4 h-4 mr-2" />
-                              <span>Institutional flow: {asset.institutionalFlow}</span>
+                              <span>Inst. flow: {asset.institutionalFlow}</span>
+                            </div>
+                            <div className="flex items-center">
+                              <TrendingUp className="w-4 h-4 mr-2" />
+                              <span>Options: {asset.optionsFlow}</span>
                             </div>
                           </div>
                         </div>
