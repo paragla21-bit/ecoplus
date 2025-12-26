@@ -3,7 +3,8 @@ import {
   TrendingUp, TrendingDown, AlertTriangle, Clock, Target, Zap, Brain, 
   ChevronDown, ChevronUp, BarChart3, Activity, Filter, Search, Bell,
   Download, Settings, RefreshCw, Volume2, PieChart, Shield, TrendingUp as ChartLine,
-  Users, DollarSign, Globe, Smartphone, Maximize2, Minimize2, Star, X, Menu
+  Users, DollarSign, Globe, Smartphone, Maximize2, Minimize2, Star, X, Menu,
+  Home, Heart, LineChart, Cog
 } from 'lucide-react';
 
 const App = () => {
@@ -23,7 +24,14 @@ const App = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [priceUpdates, setPriceUpdates] = useState({});
   
+  // Settings state
+  const [refreshInterval, setRefreshInterval] = useState('5 seconds');
+  const [defaultCurrency, setDefaultCurrency] = useState('Indian Rupees (₹)');
+  const [priceAlerts, setPriceAlerts] = useState(true);
+  const [signalAlerts, setSignalAlerts] = useState(true);
+  
   const mainRef = useRef(null);
+  const detailsRefs = useRef({});
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
@@ -31,6 +39,115 @@ const App = () => {
   }, []);
 
   const sectors = ['All', 'AI/Semiconductors', 'Cloud/AI', 'FinTech', 'Biotech', 'Clean Energy', 'EV/Energy', 'Social/VR', 'Energy/Retail', 'Banking', 'Telecom', 'IT Services', 'NBFC', 'Engineering', 'Insurance', 'FMCG', 'FMCG/Cigarettes', 'Automobile', 'Pharma', 'Conglomerate', 'Power', 'Consumer Goods', 'Cement', 'Oil & Gas', 'Paints', 'Infrastructure', 'Mining', 'Financial Services', 'Defense', 'Steel', 'Capital Goods', 'Retail', 'Internet', 'Beverages', 'Cement/Textile', 'Finance', 'Real Estate', 'Aviation', 'Gas', 'Electricals', 'Chemicals', 'Metals', 'Renewable', 'Auto Parts', 'Explosives', 'Healthcare', 'Shipbuilding', 'IT', 'Textile', 'Blockchain', 'Smart Contract', 'Stablecoin', 'Payment', 'Exchange Token', 'Meme', 'Oracle', 'Interoperability', 'Exchange', 'L1 Blockchain', 'Layer 2', 'DEX', 'Web3', 'Privacy', 'Bitcoin L2', 'AI/DePIN', 'AI', 'Enterprise', 'Storage', 'Gaming', 'DeFi', 'Supply Chain', 'Web3 Indexing', 'Major', 'Minor', 'Exotic'];
+
+  // Fix: Realistic stock prices
+  const getRealisticPrice = (symbol, idx) => {
+    // Realistic price mapping for Indian stocks
+    const priceMap = {
+      'RELIANCE': 1560.00,
+      'HDFCBANK': 1650.00,
+      'BHARTIARTL': 875.00,
+      'TCS': 3500.00,
+      'ICICIBANK': 950.00,
+      'SBIN': 600.00,
+      'INFY': 1500.00,
+      'BAJFINANCE': 7200.00,
+      'LT': 3200.00,
+      'LICI': 850.00,
+      'HINDUNILVR': 2400.00,
+      'ITC': 430.00,
+      'HCLTECH': 1250.00,
+      'M&M': 1800.00,
+      'MARUTI': 10500.00,
+      'SUNPHARMA': 1250.00,
+      'ADANIENT': 3000.00,
+      'AXISBANK': 1050.00,
+      'NTPC': 320.00,
+      'TITAN': 3500.00,
+      'ULTRACEMCO': 9500.00,
+      'TATAMOTORS': 850.00,
+      'ONGC': 220.00,
+      'ASIANPAINT': 2900.00,
+      'KOTAKBANK': 1700.00,
+      'ADANIPORTS': 1250.00,
+      'COALINDIA': 430.00,
+      'BAJAJFINSV': 1600.00,
+      'HAL': 3800.00,
+      'POWERGRID': 280.00,
+      'BEL': 185.00,
+      'JSWSTEEL': 850.00,
+      'TATASTEEL': 140.00,
+      'ADANIPOWER': 500.00,
+      'SIEMENS': 4200.00,
+      'TRENT': 3500.00,
+      'ZOMATO': 150.00,
+      'VBL': 1200.00,
+      'GRASIM': 2100.00,
+      'BAJAJ-AUTO': 7500.00,
+      'IRFC': 160.00,
+      'PFC': 400.00,
+      'IOC': 120.00,
+      'DLF': 700.00,
+      'DMART': 3800.00,
+      'INDIGO': 3000.00,
+      'GAIL': 180.00,
+      'HAVELLS': 1400.00,
+      'PIDILITIND': 2500.00,
+      'TECHM': 1200.00,
+      'HINDALCO': 600.00,
+      'VEDL': 250.00,
+      'ABB': 5500.00,
+      'BANKBARODA': 220.00,
+      'PNB': 110.00,
+      'SHREECEM': 25000.00,
+      'ADANIGREEN': 1700.00,
+      'AMBUJACEM': 550.00,
+      'DRREDDY': 5800.00,
+      'CIPLA': 1400.00,
+      'BPCL': 600.00,
+      'TVSMOTOR': 2000.00,
+      'EICHERMOT': 4000.00,
+      'JINDALSTEL': 700.00,
+      'CHOLAFIN': 1200.00,
+      'HDFCLIFE': 600.00,
+      'SBILIFE': 1400.00,
+      'SHRIRAMFIN': 2400.00,
+      'TATAPOWER': 350.00,
+      'GODREJCP': 1100.00,
+      'HEROMOTOCO': 4500.00,
+      'CANBK': 500.00,
+      'POLYCAB': 4500.00,
+      'COLPAL': 2700.00,
+      'DABUR': 550.00,
+      'MCDOWELL-N': 1100.00,
+      'SRF': 2400.00,
+      'MARICO': 550.00,
+      'CUMMINSIND': 2000.00,
+      'TUBEINVEST': 3000.00,
+      'NAUKRI': 6000.00,
+      'MOTHERSON': 100.00,
+      'LODHA': 900.00,
+      'LUPIN': 1500.00,
+      'TORNTPHARM': 2500.00,
+      'SOLARINDS': 7000.00,
+      'BERGEPAINT': 500.00,
+      'RECLTD': 450.00,
+      'BOSCHLTD': 30000.00,
+      'MUTHOOTFIN': 1600.00,
+      'PRESTIGE': 800.00,
+      'MAXHEALTH': 650.00,
+      'PERSISTENT': 8500.00,
+      'MAZDOCK': 2500.00,
+      'APOLLOHOSP': 6000.00,
+      'ASHOKLEY': 180.00,
+      'OFSS': 5500.00,
+      'YESBANK': 25.00,
+      'IDFCFIRSTB': 80.00,
+      'PAGEIND': 36000.00,
+    };
+    
+    return priceMap[symbol] || (500 + idx * 50);
+  };
 
   const formatIndianPrice = (price) => {
     const num = typeof price === 'string' ? parseFloat(price.replace(/[^0-9.-]+/g,"")) : price;
@@ -69,92 +186,13 @@ const App = () => {
       { symbol: 'NTPC', name: 'NTPC', sector: 'Power' },
       { symbol: 'TITAN', name: 'Titan Company', sector: 'Consumer Goods' },
       { symbol: 'ULTRACEMCO', name: 'UltraTech Cement', sector: 'Cement' },
-      { symbol: 'TATAMOTORS', name: 'Tata Motors', sector: 'Automobile' },
-      { symbol: 'ONGC', name: 'ONGC', sector: 'Oil & Gas' },
-      { symbol: 'ASIANPAINT', name: 'Asian Paints', sector: 'Paints' },
-      { symbol: 'KOTAKBANK', name: 'Kotak Mahindra Bank', sector: 'Banking' },
-      { symbol: 'ADANIPORTS', name: 'Adani Ports', sector: 'Infrastructure' },
-      { symbol: 'COALINDIA', name: 'Coal India', sector: 'Mining' },
-      { symbol: 'BAJAJFINSV', name: 'Bajaj Finserv', sector: 'Financial Services' },
-      { symbol: 'HAL', name: 'Hindustan Aeronautics', sector: 'Defense' },
-      { symbol: 'POWERGRID', name: 'Power Grid', sector: 'Power' },
-      { symbol: 'BEL', name: 'Bharat Electronics', sector: 'Defense' },
-      { symbol: 'JSWSTEEL', name: 'JSW Steel', sector: 'Steel' },
-      { symbol: 'TATASTEEL', name: 'Tata Steel', sector: 'Steel' },
-      { symbol: 'ADANIPOWER', name: 'Adani Power', sector: 'Power' },
-      { symbol: 'SIEMENS', name: 'Siemens', sector: 'Capital Goods' },
-      { symbol: 'TRENT', name: 'Trent Ltd', sector: 'Retail' },
-      { symbol: 'ZOMATO', name: 'Zomato', sector: 'Internet' },
-      { symbol: 'VBL', name: 'Varun Beverages', sector: 'Beverages' },
-      { symbol: 'GRASIM', name: 'Grasim Industries', sector: 'Cement/Textile' },
-      { symbol: 'BAJAJ-AUTO', name: 'Bajaj Auto', sector: 'Automobile' },
-      { symbol: 'IRFC', name: 'IRFC', sector: 'Finance' },
-      { symbol: 'PFC', name: 'Power Finance Corp', sector: 'Finance' },
-      { symbol: 'IOC', name: 'Indian Oil', sector: 'Oil & Gas' },
-      { symbol: 'DLF', name: 'DLF', sector: 'Real Estate' },
-      { symbol: 'DMART', name: 'Avenue Supermarts', sector: 'Retail' },
-      { symbol: 'INDIGO', name: 'InterGlobe Aviation', sector: 'Aviation' },
-      { symbol: 'GAIL', name: 'GAIL', sector: 'Gas' },
-      { symbol: 'HAVELLS', name: 'Havells India', sector: 'Electricals' },
-      { symbol: 'PIDILITIND', name: 'Pidilite Industries', sector: 'Chemicals' },
-      { symbol: 'TECHM', name: 'Tech Mahindra', sector: 'IT Services' },
-      { symbol: 'HINDALCO', name: 'Hindalco', sector: 'Metals' },
-      { symbol: 'VEDL', name: 'Vedanta', sector: 'Mining' },
-      { symbol: 'ABB', name: 'ABB India', sector: 'Capital Goods' },
-      { symbol: 'BANKBARODA', name: 'Bank of Baroda', sector: 'Banking' },
-      { symbol: 'PNB', name: 'Punjab National Bank', sector: 'Banking' },
-      { symbol: 'SHREECEM', name: 'Shree Cement', sector: 'Cement' },
-      { symbol: 'ADANIGREEN', name: 'Adani Green Energy', sector: 'Renewable' },
-      { symbol: 'AMBUJACEM', name: 'Ambuja Cements', sector: 'Cement' },
-      { symbol: 'DRREDDY', name: 'Dr Reddys Labs', sector: 'Pharma' },
-      { symbol: 'CIPLA', name: 'Cipla', sector: 'Pharma' },
-      { symbol: 'BPCL', name: 'Bharat Petroleum', sector: 'Oil & Gas' },
-      { symbol: 'TVSMOTOR', name: 'TVS Motor', sector: 'Automobile' },
-      { symbol: 'EICHERMOT', name: 'Eicher Motors', sector: 'Automobile' },
-      { symbol: 'JINDALSTEL', name: 'Jindal Steel', sector: 'Steel' },
-      { symbol: 'CHOLAFIN', name: 'Cholamandalam Inv', sector: 'NBFC' },
-      { symbol: 'HDFCLIFE', name: 'HDFC Life', sector: 'Insurance' },
-      { symbol: 'SBILIFE', name: 'SBI Life Insurance', sector: 'Insurance' },
-      { symbol: 'SHRIRAMFIN', name: 'Shriram Finance', sector: 'NBFC' },
-      { symbol: 'TATAPOWER', name: 'Tata Power', sector: 'Power' },
-      { symbol: 'GODREJCP', name: 'Godrej Consumer', sector: 'FMCG' },
-      { symbol: 'HEROMOTOCO', name: 'Hero MotoCorp', sector: 'Automobile' },
-      { symbol: 'CANBK', name: 'Canara Bank', sector: 'Banking' },
-      { symbol: 'POLYCAB', name: 'Polycab India', sector: 'Electricals' },
-      { symbol: 'COLPAL', name: 'Colgate-Palmolive', sector: 'FMCG' },
-      { symbol: 'DABUR', name: 'Dabur India', sector: 'FMCG' },
-      { symbol: 'MCDOWELL-N', name: 'United Spirits', sector: 'Beverages' },
-      { symbol: 'SRF', name: 'SRF Ltd', sector: 'Chemicals' },
-      { symbol: 'MARICO', name: 'Marico', sector: 'FMCG' },
-      { symbol: 'CUMMINSIND', name: 'Cummins India', sector: 'Capital Goods' },
-      { symbol: 'TUBEINVEST', name: 'Tube Investments', sector: 'Engineering' },
-      { symbol: 'NAUKRI', name: 'Info Edge', sector: 'Internet' },
-      { symbol: 'MOTHERSON', name: 'Samvardhana Motherson', sector: 'Auto Parts' },
-      { symbol: 'LODHA', name: 'Macrotech Dev', sector: 'Real Estate' },
-      { symbol: 'LUPIN', name: 'Lupin Ltd', sector: 'Pharma' },
-      { symbol: 'TORNTPHARM', name: 'Torrent Pharma', sector: 'Pharma' },
-      { symbol: 'SOLARINDS', name: 'Solar Industries', sector: 'Explosives' },
-      { symbol: 'BERGEPAINT', name: 'Berger Paints', sector: 'Paints' },
-      { symbol: 'RECLTD', name: 'REC Ltd', sector: 'Finance' },
-      { symbol: 'BOSCHLTD', name: 'Bosch Ltd', sector: 'Auto Parts' },
-      { symbol: 'MUTHOOTFIN', name: 'Muthoot Finance', sector: 'NBFC' },
-      { symbol: 'PRESTIGE', name: 'Prestige Estates', sector: 'Real Estate' },
-      { symbol: 'MAXHEALTH', name: 'Max Healthcare', sector: 'Healthcare' },
-      { symbol: 'PERSISTENT', name: 'Persistent Systems', sector: 'IT Services' },
-      { symbol: 'MAZDOCK', name: 'Mazagon Dock', sector: 'Shipbuilding' },
-      { symbol: 'APOLLOHOSP', name: 'Apollo Hospitals', sector: 'Healthcare' },
-      { symbol: 'ASHOKLEY', name: 'Ashok Leyland', sector: 'Automobile' },
-      { symbol: 'OFSS', name: 'Oracle Financial', sector: 'IT' },
-      { symbol: 'YESBANK', name: 'Yes Bank', sector: 'Banking' },
-      { symbol: 'IDFCFIRSTB', name: 'IDFC First Bank', sector: 'Banking' },
-      { symbol: 'PAGEIND', name: 'Page Industries', sector: 'Textile' },
     ];
 
     return stocks.map((stock, idx) => {
-      const basePrice = (100 + idx * 50) * 85;
-      const priceChange = (Math.random() - 0.5) * 10;
-      const newPrice = basePrice + priceChange;
-      const changePercent = ((priceChange / basePrice) * 100).toFixed(2);
+      const basePrice = getRealisticPrice(stock.symbol, idx);
+      const priceChange = ((Math.random() - 0.5) * 2); // Smaller change percentage
+      const newPrice = basePrice * (1 + priceChange/100);
+      const changePercent = priceChange.toFixed(2);
       
       return {
         ...stock,
@@ -177,7 +215,7 @@ const App = () => {
         optionsFlow: Math.random() > 0.5 ? 'Bullish' : 'Neutral',
         earningsDate: new Date(Date.now() + Math.random() * 90 * 24 * 60 * 60 * 1000).toLocaleDateString(),
         whaleActivity: Math.random() > 0.7 ? 'Detected' : 'Normal',
-        marketCap: (Math.random() * 1000).toFixed(1) + 'B',
+        marketCap: (basePrice * (Math.random() * 100 + 1)).toFixed(1) + 'B',
         peRatio: (Math.random() * 50).toFixed(1),
         dividendYield: (Math.random() * 3).toFixed(2) + '%'
       };
@@ -294,26 +332,35 @@ const App = () => {
     link.click();
   };
 
+  // Fix: Handle details expansion properly
+  const toggleDetails = (index) => {
+    if (expandedAsset === index) {
+      setExpandedAsset(null);
+    } else {
+      setExpandedAsset(index);
+    }
+  };
+
   const DashboardView = () => (
     <>
       {/* Enhanced Key Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 mb-6">
         {[
-          { label: 'Total Assets', value: marketStats.totalAssets, icon: BarChart3, color: 'blue', change: '+2' },
+          { label: 'Total Assets', value: marketStats.totalAssets, icon: BarChart3, color: 'green', change: '+2' },
           { label: 'Strong Signals', value: marketStats.strongSignals, icon: Zap, color: 'green', change: '+3' },
           { label: 'Avg Accuracy', value: marketStats.averageAccuracy, icon: Target, color: 'purple', change: '+1.2%' },
           { label: 'Active Session', value: marketStats.activeSession, icon: Clock, color: 'orange', change: 'Live' },
           { label: 'Market Regime', value: marketStats.marketRegime, icon: Activity, color: 'red', change: 'Trending' },
           { label: 'Win Rate', value: performanceStats.winRate, icon: TrendingUp, color: 'green', change: '↑ 2.1%' }
         ].map((stat, idx) => (
-          <div key={idx} className={`${darkMode ? 'bg-gray-800 bg-opacity-50' : 'bg-white'} backdrop-blur-sm border ${darkMode ? 'border-blue-500' : 'border-blue-200'} rounded-lg p-3`}>
+          <div key={idx} className={`${darkMode ? 'bg-gray-800 bg-opacity-50' : 'bg-white'} backdrop-blur-sm border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'} rounded-lg p-3`}>
             <div className="flex items-center justify-between mb-1">
               <stat.icon className={`w-4 h-4 text-${stat.color}-400`} />
               <span className={`text-xs font-semibold ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>{stat.label}</span>
             </div>
             <div className="flex items-end justify-between">
               <div className="text-lg font-bold">{stat.value}</div>
-              <span className={`text-xs ${stat.change.includes('+') || stat.change.includes('↑') ? 'text-green-400' : 'text-red-400'}`}>
+              <span className={`text-xs ${stat.change.includes('+') || stat.change.includes('↑') ? 'text-emerald-400' : 'text-red-400'}`}>
                 {stat.change}
               </span>
             </div>
@@ -323,15 +370,15 @@ const App = () => {
 
       {/* Market Sentiment Dashboard */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
-        <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-4 border ${darkMode ? 'border-blue-500' : 'border-blue-200'}`}>
+        <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-4 border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'}`}>
           <h3 className="font-bold mb-3 flex items-center">
-            <Globe className="mr-2" /> Market Overview
+            <Globe className="mr-2 text-emerald-400" /> Market Overview
           </h3>
           <div className="space-y-3">
             {Object.entries(marketSentiment).map(([key, value], idx) => (
               <div key={idx} className="flex justify-between items-center">
                 <span className={darkMode ? 'text-gray-300' : 'text-gray-700'}>{key.replace(/([A-Z])/g, ' $1')}</span>
-                <span className={`px-2 py-1 rounded text-sm ${value.includes('+') ? 'bg-green-600' : 'bg-blue-600'}`}>
+                <span className={`px-2 py-1 rounded text-sm ${value.includes('+') ? 'bg-emerald-600' : 'bg-emerald-800'}`}>
                   {value}
                 </span>
               </div>
@@ -340,18 +387,18 @@ const App = () => {
         </div>
 
         {/* Top Movers with Fixed Alignment */}
-        <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-4 border ${darkMode ? 'border-blue-500' : 'border-blue-200'}`}>
+        <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-4 border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'}`}>
           <h3 className="font-bold mb-3 flex items-center">
-            <TrendingUp className="mr-2" /> Top Movers
+            <TrendingUp className="mr-2 text-emerald-400" /> Top Movers
           </h3>
           <div className="space-y-4">
             <div>
-              <div className="text-sm font-semibold text-green-400 mb-2">Top Gainers</div>
+              <div className="text-sm font-semibold text-emerald-400 mb-2">Top Gainers</div>
               {topGainers.map((stock, idx) => (
                 <div key={idx} className="flex justify-between items-center py-2 border-b border-gray-700">
                   <div className="flex items-center flex-1">
                     <span className="font-medium w-20">{stock.symbol}</span>
-                    <span className="text-green-400 font-semibold ml-auto mr-4">+{stock.change}%</span>
+                    <span className="text-emerald-400 font-semibold ml-auto mr-4">+{stock.change}%</span>
                   </div>
                   <span className="text-gray-300 text-sm">{formatIndianPrice(stock.price)}</span>
                 </div>
@@ -372,15 +419,15 @@ const App = () => {
           </div>
         </div>
 
-        <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-4 border ${darkMode ? 'border-blue-500' : 'border-blue-200'}`}>
+        <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-4 border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'}`}>
           <h3 className="font-bold mb-3 flex items-center">
-            <ChartLine className="mr-2" /> Your Performance
+            <ChartLine className="mr-2 text-emerald-400" /> Your Performance
           </h3>
           <div className="space-y-3">
             {Object.entries(performanceStats).map(([key, value], idx) => (
               <div key={idx} className="flex justify-between">
                 <span className={darkMode ? 'text-gray-300' : 'text-gray-700'}>{key.replace(/([A-Z])/g, ' $1')}</span>
-                <span className={`font-bold ${value.includes('+') ? 'text-green-400' : 'text-blue-400'}`}>
+                <span className={`font-bold ${value.includes('+') ? 'text-emerald-400' : 'text-emerald-400'}`}>
                   {value}
                 </span>
               </div>
@@ -390,15 +437,15 @@ const App = () => {
       </div>
 
       {/* Enhanced Kill Zones */}
-      <div className={`mb-6 ${darkMode ? 'bg-gray-800 bg-opacity-50' : 'bg-white'} backdrop-blur-sm rounded-lg p-4 border ${darkMode ? 'border-blue-500' : 'border-blue-200'}`}>
+      <div className={`mb-6 ${darkMode ? 'bg-gray-800 bg-opacity-50' : 'bg-white'} backdrop-blur-sm rounded-lg p-4 border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'}`}>
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-bold flex items-center">
-            <Clock className="mr-2" /> Trading Sessions (Kill Zones)
+            <Clock className="mr-2 text-emerald-400" /> Trading Sessions (Kill Zones)
           </h2>
           <div className="flex items-center space-x-2">
             <button 
               onClick={() => setAutoRefresh(!autoRefresh)}
-              className={`p-2 rounded ${darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-100 hover:bg-gray-200'} ${autoRefresh ? 'text-green-400' : 'text-gray-400'}`}
+              className={`p-2 rounded ${darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-100 hover:bg-gray-200'} ${autoRefresh ? 'text-emerald-400' : 'text-gray-400'}`}
             >
               <RefreshCw className={`w-4 h-4 ${autoRefresh ? 'animate-spin' : ''}`} />
             </button>
@@ -407,12 +454,12 @@ const App = () => {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {sessions.map((session, idx) => (
-            <div key={idx} className={`p-3 rounded-lg border-2 ${session.active ? 'border-green-500 bg-green-900 bg-opacity-30' : 'border-gray-600 bg-gray-700 bg-opacity-30'}`}>
+            <div key={idx} className={`p-3 rounded-lg border-2 ${session.active ? 'border-emerald-500 bg-emerald-900 bg-opacity-30' : 'border-gray-600 bg-gray-700 bg-opacity-30'}`}>
               <div className="flex items-center justify-between mb-2">
                 <div>
                   <span className="font-bold">{session.name}</span>
                   <div className="flex items-center mt-1">
-                    <span className={`text-xs px-2 py-0.5 rounded mr-2 ${session.active ? 'bg-green-500' : 'bg-gray-600'}`}>
+                    <span className={`text-xs px-2 py-0.5 rounded mr-2 ${session.active ? 'bg-emerald-500' : 'bg-gray-600'}`}>
                       {session.active ? 'ACTIVE' : 'CLOSED'}
                     </span>
                   </div>
@@ -441,14 +488,14 @@ const App = () => {
             placeholder="Search symbols or companies..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className={`w-full pl-10 pr-4 py-2 rounded-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} border ${darkMode ? 'border-blue-500' : 'border-blue-200'} focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            className={`w-full pl-10 pr-4 py-2 rounded-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'} focus:outline-none focus:ring-2 focus:ring-emerald-500`}
           />
         </div>
 
         <select 
           value={selectedMarket}
           onChange={(e) => setSelectedMarket(e.target.value)}
-          className={`px-4 py-2 rounded-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} border ${darkMode ? 'border-blue-500' : 'border-blue-200'} focus:outline-none focus:ring-2 focus:ring-blue-500`}
+          className={`px-4 py-2 rounded-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'} focus:outline-none focus:ring-2 focus:ring-emerald-500`}
         >
           {['Stocks', 'Crypto', 'Forex', 'Futures', 'Options'].map(market => (
             <option key={market} value={market}>{market}</option>
@@ -458,7 +505,7 @@ const App = () => {
         <select 
           value={selectedSector}
           onChange={(e) => setSelectedSector(e.target.value)}
-          className={`px-4 py-2 rounded-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} border ${darkMode ? 'border-blue-500' : 'border-blue-200'} focus:outline-none focus:ring-2 focus:ring-blue-500`}
+          className={`px-4 py-2 rounded-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'} focus:outline-none focus:ring-2 focus:ring-emerald-500`}
         >
           {sectors.slice(0, 10).map(sector => (
             <option key={sector} value={sector}>{sector}</option>
@@ -468,7 +515,7 @@ const App = () => {
         <select 
           value={riskFilter}
           onChange={(e) => setRiskFilter(e.target.value)}
-          className={`px-4 py-2 rounded-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} border ${darkMode ? 'border-blue-500' : 'border-blue-200'} focus:outline-none focus:ring-2 focus:ring-blue-500`}
+          className={`px-4 py-2 rounded-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'} focus:outline-none focus:ring-2 focus:ring-emerald-500`}
         >
           {['All Risk', 'Low Risk (≤4)', 'Medium Risk (4-6)', 'High Risk (>6)'].map(risk => (
             <option key={risk} value={risk}>{risk}</option>
@@ -478,7 +525,7 @@ const App = () => {
         <select 
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value)}
-          className={`px-4 py-2 rounded-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} border ${darkMode ? 'border-blue-500' : 'border-blue-200'} focus:outline-none focus:ring-2 focus:ring-blue-500`}
+          className={`px-4 py-2 rounded-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'} focus:outline-none focus:ring-2 focus:ring-emerald-500`}
         >
           {['Total Score', 'AI Score', 'Risk Score', 'Volume Profile', 'Price Change'].map(sort => (
             <option key={sort} value={sort}>{sort}</option>
@@ -486,11 +533,11 @@ const App = () => {
         </select>
       </div>
 
-      {/* Enhanced Assets Table */}
-      <div className={`${darkMode ? 'bg-gray-800 bg-opacity-50' : 'bg-white'} backdrop-blur-sm rounded-lg border ${darkMode ? 'border-blue-500' : 'border-blue-200'} overflow-hidden mb-6`}>
+      {/* Enhanced Assets Table with Fixed Details */}
+      <div className={`${darkMode ? 'bg-gray-800 bg-opacity-50' : 'bg-white'} backdrop-blur-sm rounded-lg border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'} overflow-hidden mb-6`}>
         <div className="overflow-x-auto">
           <table className="w-full min-w-[900px]">
-            <thead className={`${darkMode ? 'bg-blue-900 bg-opacity-50' : 'bg-blue-50'}`}>
+            <thead className={`${darkMode ? 'bg-emerald-900 bg-opacity-50' : 'bg-emerald-50'}`}>
               <tr>
                 <th className="p-3 text-left">Rank</th>
                 <th className="p-3 text-left">Symbol</th>
@@ -505,16 +552,16 @@ const App = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredAssets.slice(0, 20).map((asset, idx) => (
+              {filteredAssets.slice(0, 21).map((asset, idx) => (
                 <React.Fragment key={idx}>
                   <tr className={`border-b ${darkMode ? 'border-gray-700' : 'border-gray-200'} hover:${darkMode ? 'bg-gray-700' : 'bg-gray-50'} transition-colors`}>
                     <td className="p-3">
-                      <span className={`font-bold ${idx < 3 ? 'text-yellow-400' : idx < 7 ? 'text-green-400' : ''}`}>
+                      <span className={`font-bold ${idx < 3 ? 'text-yellow-400' : idx < 7 ? 'text-emerald-400' : ''}`}>
                         #{asset.rank}
                       </span>
                     </td>
                     <td className="p-3">
-                      <div className="font-bold text-blue-400">{asset.symbol}</div>
+                      <div className="font-bold text-emerald-400">{asset.symbol}</div>
                       <div className="text-xs text-gray-400">{asset.name}</div>
                       <div className="text-xs text-gray-500">{asset.sector}</div>
                     </td>
@@ -523,12 +570,12 @@ const App = () => {
                       <div className="text-xs text-gray-400">Vol: {asset.volume}</div>
                     </td>
                     <td className="p-3">
-                      <div className={`font-bold ${parseFloat(asset.change) >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                      <div className={`font-bold ${parseFloat(asset.change) >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                         {parseFloat(asset.change) >= 0 ? '+' : ''}{asset.change}%
                       </div>
                     </td>
                     <td className="p-3">
-                      <span className="text-lg font-bold text-green-400">{asset.totalScore}</span>
+                      <span className="text-lg font-bold text-emerald-400">{asset.totalScore}</span>
                     </td>
                     <td className="p-3">
                       <div className="flex items-center">
@@ -538,18 +585,18 @@ const App = () => {
                     </td>
                     <td className="p-3">
                       <span className={`px-2 py-1 rounded text-xs font-semibold ${
-                        asset.signal.includes('STRONG') ? 'bg-green-600' : 
-                        asset.signal.includes('BUY') ? 'bg-green-700' : 'bg-yellow-600'
+                        asset.signal.includes('STRONG') ? 'bg-emerald-600' : 
+                        asset.signal.includes('BUY') ? 'bg-emerald-700' : 'bg-yellow-600'
                       }`}>
                         {asset.signal}
                       </span>
                     </td>
                     <td className="p-3">
                       <div className="flex items-center">
-                        <span className={`font-semibold ${parseFloat(asset.riskScore) < 4 ? 'text-green-400' : parseFloat(asset.riskScore) < 6 ? 'text-yellow-400' : 'text-red-400'}`}>
+                        <span className={`font-semibold ${parseFloat(asset.riskScore) < 4 ? 'text-emerald-400' : parseFloat(asset.riskScore) < 6 ? 'text-yellow-400' : 'text-red-400'}`}>
                           {asset.riskScore}/10
                         </span>
-                        <Shield className={`w-4 h-4 ml-1 ${parseFloat(asset.riskScore) < 4 ? 'text-green-400' : 'text-red-400'}`} />
+                        <Shield className={`w-4 h-4 ml-1 ${parseFloat(asset.riskScore) < 4 ? 'text-emerald-400' : 'text-red-400'}`} />
                       </div>
                     </td>
                     <td className="p-3">
@@ -562,64 +609,62 @@ const App = () => {
                     </td>
                     <td className="p-3">
                       <button
-                        onClick={() => setExpandedAsset(expandedAsset === idx ? null : idx)}
-                        className="p-2 hover:bg-blue-600 rounded transition-colors"
+                        onClick={() => toggleDetails(idx)}
+                        className="p-2 hover:bg-emerald-600 rounded transition-colors"
                       >
                         {expandedAsset === idx ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
                       </button>
                     </td>
                   </tr>
-                  {expandedAsset === idx && (
-                    <tr className={darkMode ? 'bg-gray-900 bg-opacity-80' : 'bg-gray-50'}>
-                      <td colSpan="10" className="p-6">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                          <div>
-                            <h4 className="font-bold mb-3 text-blue-400">📊 Advanced Metrics</h4>
-                            <div className="space-y-2 text-sm">
-                              <div className="flex justify-between">
-                                <span className="text-gray-400">ICT Score:</span>
-                                <span className="font-semibold">{asset.ictScore}</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-gray-400">Market Cap:</span>
-                                <span className="font-semibold">{asset.marketCap}</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-gray-400">P/E Ratio:</span>
-                                <span className="font-semibold">{asset.peRatio}</span>
-                              </div>
+                  <tr className={expandedAsset === idx ? '' : 'hidden'}>
+                    <td colSpan="10" className={`p-6 ${darkMode ? 'bg-gray-900 bg-opacity-80' : 'bg-gray-50'} transition-all duration-300`}>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                          <h4 className="font-bold mb-3 text-emerald-400">📊 Advanced Metrics</h4>
+                          <div className="space-y-2 text-sm">
+                            <div className="flex justify-between">
+                              <span className="text-gray-400">ICT Score:</span>
+                              <span className="font-semibold">{asset.ictScore}</span>
                             </div>
-                          </div>
-                          <div>
-                            <h4 className="font-bold mb-3 text-purple-400">🏦 Institutional Data</h4>
-                            <div className="space-y-2 text-sm">
-                              <div className="flex justify-between">
-                                <span className="text-gray-400">Dark Pool:</span>
-                                <span className="font-semibold">{asset.darkPoolActivity}</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-gray-400">Short Interest:</span>
-                                <span className="font-semibold">{asset.shortInterest}</span>
-                              </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-400">Market Cap:</span>
+                              <span className="font-semibold">{asset.marketCap}</span>
                             </div>
-                          </div>
-                          <div>
-                            <h4 className="font-bold mb-3 text-green-400">💡 Trading Insights</h4>
-                            <div className="space-y-2 text-sm">
-                              <div className="flex items-center">
-                                <Target className="w-4 h-4 mr-2" />
-                                <span>Next optimal entry: {asset.nextOptimal}</span>
-                              </div>
-                              <div className="flex items-center">
-                                <Activity className="w-4 h-4 mr-2" />
-                                <span>Institutional flow: {asset.institutionalFlow}</span>
-                              </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-400">P/E Ratio:</span>
+                              <span className="font-semibold">{asset.peRatio}</span>
                             </div>
                           </div>
                         </div>
-                      </td>
-                    </tr>
-                  )}
+                        <div>
+                          <h4 className="font-bold mb-3 text-purple-400">🏦 Institutional Data</h4>
+                          <div className="space-y-2 text-sm">
+                            <div className="flex justify-between">
+                              <span className="text-gray-400">Dark Pool:</span>
+                              <span className="font-semibold">{asset.darkPoolActivity}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-400">Short Interest:</span>
+                              <span className="font-semibold">{asset.shortInterest}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div>
+                          <h4 className="font-bold mb-3 text-emerald-400">💡 Trading Insights</h4>
+                          <div className="space-y-2 text-sm">
+                            <div className="flex items-center">
+                              <Target className="w-4 h-4 mr-2" />
+                              <span>Next optimal entry: {asset.nextOptimal}</span>
+                            </div>
+                            <div className="flex items-center">
+                              <Activity className="w-4 h-4 mr-2" />
+                              <span>Institutional flow: {asset.institutionalFlow}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
                 </React.Fragment>
               ))}
             </tbody>
@@ -630,13 +675,13 @@ const App = () => {
   );
 
   const WatchlistView = () => (
-    <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-6 border ${darkMode ? 'border-blue-500' : 'border-blue-200'}`}>
+    <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-6 border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'}`}>
       <h2 className="text-2xl font-bold mb-6 flex items-center">
-        <Star className="mr-3" /> Your Watchlist
+        <Heart className="mr-3 text-emerald-400" /> Your Watchlist
       </h2>
       {watchlist.length === 0 ? (
         <div className="text-center py-12">
-          <Star className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+          <Heart className="w-16 h-16 text-gray-400 mx-auto mb-4" />
           <p className="text-gray-400">No assets in watchlist. Click the star icon to add assets.</p>
         </div>
       ) : (
@@ -662,13 +707,13 @@ const App = () => {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-400">Change:</span>
-                  <span className={`font-bold ${parseFloat(asset.change) >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                  <span className={`font-bold ${parseFloat(asset.change) >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                     {parseFloat(asset.change) >= 0 ? '+' : ''}{asset.change}%
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-400">Signal:</span>
-                  <span className="font-bold text-green-400">{asset.signal}</span>
+                  <span className="font-bold text-emerald-400">{asset.signal}</span>
                 </div>
               </div>
             </div>
@@ -679,9 +724,9 @@ const App = () => {
   );
 
   const AnalysisView = () => (
-    <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-6 border ${darkMode ? 'border-blue-500' : 'border-blue-200'}`}>
+    <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-6 border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'}`}>
       <h2 className="text-2xl font-bold mb-6 flex items-center">
-        <BarChart3 className="mr-3" /> Advanced Analysis
+        <LineChart className="mr-3 text-emerald-400" /> Advanced Analysis
       </h2>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="space-y-4">
@@ -691,7 +736,7 @@ const App = () => {
               {['RSI', 'MACD', 'Bollinger Bands', 'Moving Averages'].map((indicator, idx) => (
                 <div key={idx} className="flex justify-between items-center">
                   <span>{indicator}</span>
-                  <span className={`px-3 py-1 rounded text-sm ${idx % 2 === 0 ? 'bg-green-600' : 'bg-blue-600'}`}>
+                  <span className={`px-3 py-1 rounded text-sm ${idx % 2 === 0 ? 'bg-emerald-600' : 'bg-emerald-800'}`}>
                     {idx % 2 === 0 ? 'Bullish' : 'Neutral'}
                   </span>
                 </div>
@@ -707,7 +752,7 @@ const App = () => {
               </div>
               <div className="flex justify-between">
                 <span>Diversification Score</span>
-                <span className="text-green-400 font-bold">82%</span>
+                <span className="text-emerald-400 font-bold">82%</span>
               </div>
             </div>
           </div>
@@ -717,7 +762,7 @@ const App = () => {
           <div className="space-y-3">
             <div className="flex justify-between">
               <span>Market Sentiment</span>
-              <span className="text-green-400 font-bold">76% Bullish</span>
+              <span className="text-emerald-400 font-bold">76% Bullish</span>
             </div>
             <div className="flex justify-between">
               <span>Volatility Index</span>
@@ -725,11 +770,11 @@ const App = () => {
             </div>
             <div className="flex justify-between">
               <span>Put/Call Ratio</span>
-              <span className="text-blue-400 font-bold">0.68</span>
+              <span className="text-emerald-400 font-bold">0.68</span>
             </div>
             <div className="flex justify-between">
               <span>Advance/Decline</span>
-              <span className="text-green-400 font-bold">65%/35%</span>
+              <span className="text-emerald-400 font-bold">65%/35%</span>
             </div>
           </div>
         </div>
@@ -738,9 +783,9 @@ const App = () => {
   );
 
   const SettingsView = () => (
-    <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-6 border ${darkMode ? 'border-blue-500' : 'border-blue-200'}`}>
+    <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-6 border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'}`}>
       <h2 className="text-2xl font-bold mb-6 flex items-center">
-        <Settings className="mr-3" /> Settings
+        <Cog className="mr-3 text-emerald-400" /> Settings
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-6">
@@ -754,7 +799,7 @@ const App = () => {
                 </div>
                 <button
                   onClick={() => setDarkMode(!darkMode)}
-                  className={`relative inline-flex h-6 w-11 items-center rounded-full ${darkMode ? 'bg-blue-600' : 'bg-gray-300'}`}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full ${darkMode ? 'bg-emerald-600' : 'bg-gray-300'}`}
                 >
                   <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition ${darkMode ? 'translate-x-6' : 'translate-x-1'}`} />
                 </button>
@@ -766,7 +811,7 @@ const App = () => {
                 </div>
                 <button
                   onClick={() => setAutoRefresh(!autoRefresh)}
-                  className={`relative inline-flex h-6 w-11 items-center rounded-full ${autoRefresh ? 'bg-green-600' : 'bg-gray-300'}`}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full ${autoRefresh ? 'bg-emerald-600' : 'bg-gray-300'}`}
                 >
                   <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition ${autoRefresh ? 'translate-x-6' : 'translate-x-1'}`} />
                 </button>
@@ -777,7 +822,7 @@ const App = () => {
             <h3 className="font-bold mb-4">Data Export</h3>
             <button
               onClick={exportData}
-              className={`w-full py-3 px-4 rounded-lg ${darkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-500 hover:bg-blue-600'} text-white font-medium flex items-center justify-center`}
+              className={`w-full py-3 px-4 rounded-lg ${darkMode ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-emerald-500 hover:bg-emerald-600'} text-white font-medium flex items-center justify-center`}
             >
               <Download className="w-5 h-5 mr-2" />
               Export All Data
@@ -790,7 +835,11 @@ const App = () => {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-2">Refresh Interval</label>
-                <select className={`w-full p-3 rounded-lg ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-100 text-gray-900'} border ${darkMode ? 'border-gray-600' : 'border-gray-300'}`}>
+                <select 
+                  value={refreshInterval}
+                  onChange={(e) => setRefreshInterval(e.target.value)}
+                  className={`w-full p-3 rounded-lg ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-100 text-gray-900'} border ${darkMode ? 'border-gray-600' : 'border-gray-300'}`}
+                >
                   <option>5 seconds</option>
                   <option>15 seconds</option>
                   <option>30 seconds</option>
@@ -799,7 +848,11 @@ const App = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium mb-2">Default Currency</label>
-                <select className={`w-full p-3 rounded-lg ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-100 text-gray-900'} border ${darkMode ? 'border-gray-600' : 'border-gray-300'}`}>
+                <select 
+                  value={defaultCurrency}
+                  onChange={(e) => setDefaultCurrency(e.target.value)}
+                  className={`w-full p-3 rounded-lg ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-100 text-gray-900'} border ${darkMode ? 'border-gray-600' : 'border-gray-300'}`}
+                >
                   <option>Indian Rupees (₹)</option>
                   <option>US Dollar ($)</option>
                   <option>Euro (€)</option>
@@ -812,11 +865,21 @@ const App = () => {
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span>Price Alerts</span>
-                <input type="checkbox" defaultChecked className="h-5 w-5 text-blue-600 rounded" />
+                <input 
+                  type="checkbox" 
+                  checked={priceAlerts}
+                  onChange={(e) => setPriceAlerts(e.target.checked)}
+                  className="h-5 w-5 text-emerald-600 rounded" 
+                />
               </div>
               <div className="flex items-center justify-between">
                 <span>Signal Alerts</span>
-                <input type="checkbox" defaultChecked className="h-5 w-5 text-blue-600 rounded" />
+                <input 
+                  type="checkbox" 
+                  checked={signalAlerts}
+                  onChange={(e) => setSignalAlerts(e.target.checked)}
+                  className="h-5 w-5 text-emerald-600 rounded" 
+                />
               </div>
             </div>
           </div>
@@ -848,22 +911,22 @@ const App = () => {
               </button>
             </div>
             <div className="space-y-4">
-              {['dashboard', 'watchlist', 'analysis', 'settings'].map(tab => (
+              {[
+                { id: 'dashboard', icon: <Home className="w-5 h-5 mr-3" />, label: 'Dashboard' },
+                { id: 'watchlist', icon: <Heart className="w-5 h-5 mr-3" />, label: 'Watchlist' },
+                { id: 'analysis', icon: <LineChart className="w-5 h-5 mr-3" />, label: 'Analysis' },
+                { id: 'settings', icon: <Cog className="w-5 h-5 mr-3" />, label: 'Settings' }
+              ].map(tab => (
                 <button
-                  key={tab}
+                  key={tab.id}
                   onClick={() => {
-                    setActiveView(tab);
+                    setActiveView(tab.id);
                     setMobileMenuOpen(false);
                   }}
-                  className={`w-full text-left px-4 py-3 rounded-lg ${activeView === tab ? 'bg-blue-600 text-white' : darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
+                  className={`w-full text-left px-4 py-3 rounded-lg flex items-center ${activeView === tab.id ? 'bg-emerald-600 text-white' : darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
                 >
-                  <span className="mr-3">
-                    {tab === 'dashboard' && '📊'}
-                    {tab === 'watchlist' && '⭐'}
-                    {tab === 'analysis' && '📈'}
-                    {tab === 'settings' && '⚙️'}
-                  </span>
-                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                  {tab.icon}
+                  {tab.label}
                 </button>
               ))}
             </div>
@@ -882,7 +945,7 @@ const App = () => {
               <Menu className="w-6 h-6" />
             </button>
             <div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-500 to-green-400 bg-clip-text text-transparent">
                 Ecoplus Analyzer v.1169
               </h1>
               <p className="text-sm text-gray-400 mt-1">
@@ -892,8 +955,8 @@ const App = () => {
           </div>
           
           <div className="flex items-center space-x-3">
-            <div className={`hidden md:block ${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg px-4 py-2 border ${darkMode ? 'border-blue-500' : 'border-blue-200'}`}>
-              <div className="text-lg font-mono text-blue-400">{currentTime.toLocaleTimeString('en-IN')}</div>
+            <div className={`hidden md:block ${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg px-4 py-2 border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'}`}>
+              <div className="text-lg font-mono text-emerald-400">{currentTime.toLocaleTimeString('en-IN')}</div>
               <div className="text-xs text-gray-400">
                 {currentTime.toLocaleDateString('en-IN', { 
                   weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' 
@@ -904,13 +967,13 @@ const App = () => {
             <div className="flex space-x-2">
               <button 
                 onClick={() => setDarkMode(!darkMode)}
-                className={`p-2 rounded-lg ${darkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-white hover:bg-gray-100'} border ${darkMode ? 'border-blue-500' : 'border-blue-200'}`}
+                className={`p-2 rounded-lg ${darkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-white hover:bg-gray-100'} border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'}`}
               >
                 {darkMode ? '☀️' : '🌙'}
               </button>
               <button 
                 onClick={toggleFullscreen}
-                className={`p-2 rounded-lg ${darkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-white hover:bg-gray-100'} border ${darkMode ? 'border-blue-500' : 'border-blue-200'}`}
+                className={`p-2 rounded-lg ${darkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-white hover:bg-gray-100'} border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'}`}
               >
                 {isFullscreen ? <Minimize2 className="w-5 h-5" /> : <Maximize2 className="w-5 h-5" />}
               </button>
@@ -920,41 +983,46 @@ const App = () => {
 
         {/* Navigation Tabs - Desktop */}
         <div className="hidden lg:flex space-x-2">
-          {['dashboard', 'watchlist', 'analysis', 'settings'].map(tab => (
+          {[
+            { id: 'dashboard', icon: <Home className="w-5 h-5 mr-2" />, label: 'Dashboard' },
+            { id: 'watchlist', icon: <Heart className="w-5 h-5 mr-2" />, label: 'Watchlist' },
+            { id: 'analysis', icon: <LineChart className="w-5 h-5 mr-2" />, label: 'Analysis' },
+            { id: 'settings', icon: <Cog className="w-5 h-5 mr-2" />, label: 'Settings' }
+          ].map(tab => (
             <button
-              key={tab}
-              onClick={() => setActiveView(tab)}
-              className={`px-6 py-3 rounded-lg font-medium capitalize transition-colors ${
-                activeView === tab 
-                  ? 'bg-blue-600 text-white' 
+              key={tab.id}
+              onClick={() => setActiveView(tab.id)}
+              className={`px-6 py-3 rounded-lg font-medium capitalize transition-colors flex items-center ${
+                activeView === tab.id 
+                  ? 'bg-emerald-600 text-white' 
                   : `${darkMode ? 'bg-gray-800 text-gray-300 hover:bg-gray-700' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`
               }`}
             >
-              {tab === 'dashboard' && '📊 '}
-              {tab === 'watchlist' && '⭐ '}
-              {tab === 'analysis' && '📈 '}
-              {tab === 'settings' && '⚙️ '}
-              {tab}
+              {tab.icon}
+              {tab.label}
             </button>
           ))}
         </div>
 
         {/* Navigation Tabs - Mobile */}
         <div className="lg:hidden flex overflow-x-auto space-x-2 pb-2">
-          {['dashboard', 'watchlist', 'analysis', 'settings'].map(tab => (
+          {[
+            { id: 'dashboard', icon: '🏠', label: 'Dash' },
+            { id: 'watchlist', icon: '⭐', label: 'Watch' },
+            { id: 'analysis', icon: '📊', label: 'Analyze' },
+            { id: 'settings', icon: '⚙️', label: 'Settings' }
+          ].map(tab => (
             <button
-              key={tab}
-              onClick={() => setActiveView(tab)}
-              className={`px-4 py-2 rounded-lg font-medium capitalize whitespace-nowrap ${
-                activeView === tab 
-                  ? 'bg-blue-600 text-white' 
+              key={tab.id}
+              onClick={() => setActiveView(tab.id)}
+              className={`px-4 py-2 rounded-lg font-medium capitalize whitespace-nowrap flex items-center ${
+                activeView === tab.id 
+                  ? 'bg-emerald-600 text-white' 
                   : `${darkMode ? 'bg-gray-800 text-gray-300' : 'bg-gray-100 text-gray-700'}`
               }`}
             >
-              {tab === 'dashboard' && '📊'}
-              {tab === 'watchlist' && '⭐'}
-              {tab === 'analysis' && '📈'}
-              {tab === 'settings' && '⚙️'}
+              <span className="mr-2">{tab.icon}</span>
+              {tab.label}
             </button>
           ))}
         </div>
@@ -976,7 +1044,7 @@ const App = () => {
           <div className="flex items-center space-x-3">
             <button 
               onClick={() => setAssets(generateAdvancedData())}
-              className={`px-4 py-2 rounded-lg ${darkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-500 hover:bg-blue-600'} text-white font-medium flex items-center`}
+              className={`px-4 py-2 rounded-lg ${darkMode ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-emerald-500 hover:bg-emerald-600'} text-white font-medium flex items-center`}
             >
               <RefreshCw className="w-4 h-4 mr-2" /> Refresh Data
             </button>
