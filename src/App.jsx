@@ -878,10 +878,11 @@ const App = () => {
                 <PolarAngleAxis dataKey="subject" stroke={darkMode ? "#9ca3af" : "#6b7280"} />
                 <PolarRadiusAxis stroke={darkMode ? "#9ca3af" : "#6b7280"} />
                 
-                <br></br><RechartsRadar name="Current" dataKey="A" stroke="#8b5cf6" fill="#8b5cf6" fillOpacity={0.3} />
-                <RechartsRadar name="Average" dataKey="B" stroke="#10b981" fill="#10b981" fillOpacity={0.3} />
+                
                 <Legend />
               </RadarChart>
+              <RechartsRadar name="Current" dataKey="A" stroke="#8b5cf6" fill="#8b5cf6" fillOpacity={0.3} />
+                <RechartsRadar name="Average" dataKey="B" stroke="#10b981" fill="#10b981" fillOpacity={0.3} />
             </ResponsiveContainer>
           </div>
         </div>
