@@ -50,15 +50,8 @@ import {
   Bank, Hospital, School, Store, ShoppingCart, ShoppingBag, Tag,
   Ticket, Percent, IndianRupee, DollarSign as Dollar, Euro, PoundSterling,
   Yen, Bitcoin as Bitcoin2, Ethereum, Litecoin, Dogecoin, CreditCard as CreditCard2,
-  Wallet as Wallet2, Receipt, ReceiptText, Calculator, ChartNoAxesCombined,
-  ChartCandlestick, ChartLine as ChartLine2, ChartArea, ChartBar,
-  ChartBarBig, ChartPie, ChartScatter, ChartSpline
+  Wallet as Wallet2, Receipt, ReceiptText, Calculator
 } from 'lucide-react';
-
-// Import for 3D effects
-//import * as THREE from 'three';
-//import { Canvas, useFrame } from '@react-three/fiber';
-//import { OrbitControls, Sphere, Box, Torus, Cone, Cylinder } from '@react-three/drei';
 
 // Import for Charts
 import { 
@@ -100,7 +93,7 @@ const App = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   // Advanced State Variables
-  const [connectionStatus, setConnectionStatus] = useState('connected');
+  const [connectionStatus] = useState('connected');
   const [batteryLevel, setBatteryLevel] = useState(85);
   const [isCharging, setIsCharging] = useState(true);
   const [cpuUsage, setCpuUsage] = useState(45);
@@ -110,7 +103,6 @@ const App = () => {
   const [selectedTimeframe, setSelectedTimeframe] = useState('1D');
   const [gridView, setGridView] = useState(false);
   const [neuralNetworkMode, setNeuralNetworkMode] = useState(false);
-  const [holographicDisplay, setHolographicDisplay] = useState(false);
   const [cyberpunkMode, setCyberpunkMode] = useState(false);
   const [quantumMode, setQuantumMode] = useState(false);
   const [aiAssistantActive, setAiAssistantActive] = useState(false);
@@ -130,50 +122,16 @@ const App = () => {
   const [tradingBotsActive, setTradingBotsActive] = useState(3);
   const [timeTravelMode, setTimeTravelMode] = useState(false);
   const [parallelUniverse, setParallelUniverse] = useState(0);
-  const [realityDistortion, setRealityDistortion] = useState(0);
   const [wormholeOpen, setWormholeOpen] = useState(false);
   
   // Settings state
-  const [refreshInterval, setRefreshInterval] = useState('Quantum');
+  const [refreshInterval, setRefreshInterval] = useState('Manual');
   const [defaultCurrency, setDefaultCurrency] = useState('Indian Rupees (₹)');
   const [priceAlerts, setPriceAlerts] = useState(true);
   const [signalAlerts, setSignalAlerts] = useState(true);
   
   const mainRef = useRef(null);
   const searchInputRef = useRef(null);
-  const audioRef = useRef(null);
-  const canvasRef = useRef(null);
-
-  // 3D Background Component
-  const ThreeDBackground = () => {
-    const meshRef = useRef();
-    const particlesRef = useRef();
-    
-    useFrame((state) => {
-      if (meshRef.current) {
-        meshRef.current.rotation.x = state.clock.elapsedTime * 0.1;
-        meshRef.current.rotation.y = state.clock.elapsedTime * 0.15;
-      }
-      if (particlesRef.current) {
-        particlesRef.current.rotation.y = state.clock.elapsedTime * 0.05;
-      }
-    });
-
-    return (
-      <>
-        <ambientLight intensity={0.2} />
-        <pointLight position={[10, 10, 10]} />
-        <mesh ref={meshRef}>
-          <torusKnotGeometry args={[1, 0.3, 128, 16]} />
-          <meshStandardMaterial color={quantumMode ? "#00ff88" : "#0066ff"} wireframe />
-        </mesh>
-        <points ref={particlesRef}>
-          <sphereGeometry args={[5, 32, 32]} />
-          <pointsMaterial color="#ffffff" size={0.02} transparent />
-        </points>
-      </>
-    );
-  };
 
   // Generate Quantum Bits
   useEffect(() => {
@@ -251,7 +209,7 @@ const App = () => {
     const interval = setInterval(() => {
       setAiInsights(prev => {
         const newInsight = insights[Math.floor(Math.random() * insights.length)];
-        if (prev[0]?.text !== newInsight) {
+        if (prev.length === 0 || prev[0]?.text !== newInsight) {
           return [{ id: Date.now(), text: newInsight, time: new Date().toLocaleTimeString() }, ...prev.slice(0, 4)];
         }
         return prev;
@@ -335,7 +293,7 @@ const App = () => {
   }, []);
 
   const [assets, setAssets] = useState(() => generateAdvancedData());
-  const [performanceStats, setPerformanceStats] = useState({
+  const [performanceStats] = useState({
     dailyProfit: '+2.4%',
     weeklyProfit: '+8.7%',
     winRate: '76.2%',
@@ -385,6 +343,7 @@ const App = () => {
         if (riskFilter === 'Low') return parseFloat(asset.riskScore) <= 4;
         if (riskFilter === 'Medium') return parseFloat(asset.riskScore) > 4 && parseFloat(asset.riskScore) <= 6;
         if (riskFilter === 'High') return parseFloat(asset.riskScore) > 6;
+        if (riskFilter === 'Quantum') return parseFloat(asset.quantumProbability) > 70;
         return true;
       })
       .filter(asset => 
@@ -400,6 +359,7 @@ const App = () => {
           case 'Price Change': return parseFloat(b.change) - parseFloat(a.change);
           case 'Market Cap': return parseFloat(b.marketCapCr.replace(/,/g, '')) - parseFloat(a.marketCapCr.replace(/,/g, ''));
           case 'Quantum Probability': return parseFloat(b.quantumProbability) - parseFloat(a.quantumProbability);
+          case 'Neural Strength': return parseFloat(b.neuralStrength) - parseFloat(a.neuralStrength);
           default: return a.rank - b.rank;
         }
       });
@@ -561,14 +521,11 @@ const App = () => {
   }, [toggleWatchlist]);
 
   const activateQuantumMode = () => {
-    setQuantumMode(true);
-    setNeuralNetworkMode(true);
-    setCyberpunkMode(true);
-    setPredictionAccuracy(95.7);
+    setQuantumMode(!quantumMode);
     
     const newAlert = {
       id: Date.now(),
-      message: `🚀 Quantum Trading Mode Activated!`,
+      message: quantumMode ? `Quantum Mode Deactivated` : `🚀 Quantum Trading Mode Activated!`,
       type: 'success',
       time: new Date().toLocaleTimeString()
     };
@@ -593,6 +550,7 @@ const App = () => {
     
     setTimeout(() => {
       setWormholeOpen(false);
+      setTimeTravelMode(false);
       setParallelUniverse(prev => prev + 1);
       
       const newAlert = {
@@ -627,7 +585,7 @@ const App = () => {
 
   // Neural Network Visualization
   const NeuralNetworkViz = () => (
-    <div className="absolute inset-0 overflow-hidden opacity-20">
+    <div className="absolute inset-0 overflow-hidden opacity-20 pointer-events-none">
       {[...Array(20)].map((_, i) => (
         <div
           key={i}
@@ -766,15 +724,6 @@ const App = () => {
 
   const DashboardView = () => (
     <>
-      {/* 3D Background */}
-      {quantumMode && (
-        <div className="fixed inset-0 z-0 opacity-10">
-          <Canvas>
-            <ThreeDBackground />
-          </Canvas>
-        </div>
-      )}
-
       {/* Quantum Effects */}
       {quantumMode && <QuantumBits />}
       {neuralNetworkMode && <NeuralNetworkViz />}
@@ -909,7 +858,7 @@ const App = () => {
             {Object.entries(marketSentiment).slice(0, 4).map(([key, value], idx) => (
               <div key={idx} className="flex justify-between items-center text-sm">
                 <span className={darkMode ? 'text-gray-300' : 'text-gray-700'}>{key}</span>
-                <span className={`px-2 py-1 rounded text-xs ${value.includes('+') ? 'bg-emerald-600' : 'bg-emerald-800'}`}>
+                <span className={`px-2 py-1 rounded text-xs ${value.includes('+') ? 'bg-emerald-600' : value.includes('-') ? 'bg-red-600' : 'bg-emerald-800'}`}>
                   {value}
                 </span>
               </div>
@@ -928,8 +877,8 @@ const App = () => {
                 <PolarGrid />
                 <PolarAngleAxis dataKey="subject" stroke={darkMode ? "#9ca3af" : "#6b7280"} />
                 <PolarRadiusAxis stroke={darkMode ? "#9ca3af" : "#6b7280"} />
-                <Radar name="Current" dataKey="A" stroke="#8b5cf6" fill="#8b5cf6" fillOpacity={0.3} />
-                <Radar name="Average" dataKey="B" stroke="#10b981" fill="#10b981" fillOpacity={0.3} />
+                <RechartsRadar name="Current" dataKey="A" stroke="#8b5cf6" fill="#8b5cf6" fillOpacity={0.3} />
+                <RechartsRadar name="Average" dataKey="B" stroke="#10b981" fill="#10b981" fillOpacity={0.3} />
                 <Legend />
               </RadarChart>
             </ResponsiveContainer>
@@ -1230,7 +1179,7 @@ const App = () => {
                 {filteredAssets.slice(0, 21).map((asset, idx) => (
                   <React.Fragment key={idx}>
                     <tr 
-                      className={`border-b ${darkMode ? 'border-gray-700' : 'border-gray-200'} hover:${darkMode ? 'bg-gray-700' : 'bg-gray-50'} transition-colors cursor-pointer group`}
+                      className={`border-b ${darkMode ? 'border-gray-700' : 'border-gray-200'} ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-50'} transition-colors cursor-pointer group`}
                       onClick={() => toggleDetails(idx)}
                     >
                       <td className="p-3">
@@ -1437,8 +1386,225 @@ const App = () => {
     </>
   );
 
-  // Remaining views (WatchlistView, AnalysisView, SettingsView) would be similarly enhanced
-  // Due to length constraints, I'll show the enhanced SettingsView
+  const WatchlistView = () => {
+    const watchlistAssets = assets.filter(asset => watchlist.includes(asset.symbol));
+    
+    return (
+      <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-6 border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'} relative z-10`}>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold flex items-center">
+            <Heart className="mr-3 text-emerald-400" /> Your Watchlist
+            <span className="ml-2 text-sm bg-emerald-600 px-2 py-1 rounded">{watchlist.length} items</span>
+          </h2>
+          {watchlist.length > 0 && (
+            <button
+              onClick={() => setWatchlist([])}
+              className="px-3 py-1 text-sm bg-red-600 rounded hover:bg-red-700"
+            >
+              Clear All
+            </button>
+          )}
+        </div>
+        {watchlist.length === 0 ? (
+          <div className="text-center py-12">
+            <Heart className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+            <p className="text-gray-400 mb-4">No assets in watchlist.</p>
+            <p className="text-sm text-gray-500">Click the star icon on any asset to add it here.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {watchlistAssets.map((asset, idx) => (
+              <div key={idx} className={`p-4 rounded-lg border ${darkMode ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-white'} hover:scale-[1.02] transition-transform duration-200`}>
+                <div className="flex justify-between items-start mb-3">
+                  <div>
+                    <h3 className="font-bold text-lg">{asset.symbol}</h3>
+                    <p className="text-gray-400 text-sm">{asset.name}</p>
+                    <span className="text-xs px-2 py-1 bg-gray-700 rounded mt-1 inline-block">{asset.sector}</span>
+                  </div>
+                  <button
+                    onClick={() => toggleWatchlist(asset.symbol)}
+                    className="text-yellow-400 hover:text-yellow-300"
+                  >
+                    <Star className="w-5 h-5 fill-current" />
+                  </button>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Price:</span>
+                    <span className="font-bold">{formatIndianPrice(asset.price)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Change:</span>
+                    <span className={`font-bold ${parseFloat(asset.change) >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                      {parseFloat(asset.change) >= 0 ? '+' : ''}{asset.change}%
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Signal:</span>
+                    <span className={`font-bold ${
+                      asset.signal.includes('STRONG') ? 'text-emerald-400' : 
+                      asset.signal.includes('BUY') ? 'text-green-400' : 'text-yellow-400'
+                    }`}>
+                      {asset.signal.replace('🟢 ', '').replace('🟡 ', '')}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Risk Score:</span>
+                    <span className={`font-bold ${parseFloat(asset.riskScore) < 4 ? 'text-emerald-400' : parseFloat(asset.riskScore) < 6 ? 'text-yellow-400' : 'text-red-400'}`}>
+                      {asset.riskScore}/10
+                    </span>
+                  </div>
+                </div>
+                <div className="mt-4 pt-4 border-t border-gray-700 flex justify-between">
+                  <button 
+                    onClick={() => toggleDetails(assets.findIndex(a => a.symbol === asset.symbol))}
+                    className="px-3 py-1 text-sm bg-gray-700 rounded hover:bg-gray-600"
+                  >
+                    Details
+                  </button>
+                  <button 
+                    onClick={() => window.open(`https://www.google.com/search?q=${asset.symbol}+stock`, '_blank')}
+                    className="px-3 py-1 text-sm bg-blue-600 rounded hover:bg-blue-700 flex items-center"
+                  >
+                    <ExternalLink className="w-3 h-3 mr-1" /> Research
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const AnalysisView = () => (
+    <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-6 border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'} relative z-10`}>
+      <h2 className="text-2xl font-bold mb-6 flex items-center">
+        <LineChart className="mr-3 text-emerald-400" /> Advanced Analysis
+      </h2>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="space-y-4">
+          <div className={`p-4 rounded-lg ${darkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
+            <h3 className="font-bold mb-3 flex items-center">
+              <Activity className="mr-2" /> Technical Indicators
+            </h3>
+            <div className="space-y-3">
+              {[
+                { name: 'RSI', value: '68.4', status: 'Neutral' },
+                { name: 'MACD', value: '2.45', status: 'Bullish' },
+                { name: 'Bollinger Bands', value: 'Upper Band', status: 'Warning' },
+                { name: 'Moving Averages', value: 'Golden Cross', status: 'Bullish' },
+                { name: 'Volume Profile', value: 'High Volume Node', status: 'Strong' },
+                { name: 'Fibonacci', value: '0.618 Retracement', status: 'Key Level' }
+              ].map((indicator, idx) => (
+                <div key={idx} className="flex justify-between items-center">
+                  <span>{indicator.name}</span>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-sm">{indicator.value}</span>
+                    <span className={`px-2 py-1 rounded text-xs ${
+                      indicator.status === 'Bullish' ? 'bg-emerald-600' : 
+                      indicator.status === 'Warning' ? 'bg-yellow-600' : 
+                      indicator.status === 'Strong' ? 'bg-blue-600' : 'bg-gray-600'
+                    }`}>
+                      {indicator.status}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className={`p-4 rounded-lg ${darkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
+            <h3 className="font-bold mb-3 flex items-center">
+              <Shield className="mr-2" /> Risk Analysis
+            </h3>
+            <div className="space-y-3">
+              <div className="flex justify-between">
+                <span>Portfolio Risk</span>
+                <span className="text-yellow-400 font-bold">Medium</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Diversification Score</span>
+                <span className="text-emerald-400 font-bold">82%</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Max Drawdown</span>
+                <span className="text-red-400 font-bold">-8.4%</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Value at Risk (95%)</span>
+                <span className="text-yellow-400 font-bold">-12.2%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="space-y-4">
+          <div className={`p-4 rounded-lg ${darkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
+            <h3 className="font-bold mb-3 flex items-center">
+              <Globe className="mr-2" /> Market Insights
+            </h3>
+            <div className="space-y-3">
+              <div className="flex justify-between">
+                <span>Market Sentiment</span>
+                <div className="flex items-center">
+                  <div className="w-24 h-2 bg-gray-700 rounded-full mr-2">
+                    <div className="w-3/4 h-2 bg-emerald-400 rounded-full"></div>
+                  </div>
+                  <span className="text-emerald-400 font-bold">76% Bullish</span>
+                </div>
+              </div>
+              <div className="flex justify-between">
+                <span>Volatility Index (VIX)</span>
+                <span className="text-yellow-400 font-bold">15.2</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Put/Call Ratio</span>
+                <span className="text-emerald-400 font-bold">0.68</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Advance/Decline</span>
+                <div className="flex items-center space-x-2">
+                  <span className="text-emerald-400">1,245</span>
+                  <span className="text-gray-400">/</span>
+                  <span className="text-red-400">876</span>
+                </div>
+              </div>
+              <div className="flex justify-between">
+                <span>Market Breadth</span>
+                <span className="text-emerald-400 font-bold">Positive</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Institutional Activity</span>
+                <span className="text-emerald-400 font-bold">High</span>
+              </div>
+            </div>
+          </div>
+          <div className={`p-4 rounded-lg ${darkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
+            <h3 className="font-bold mb-3 flex items-center">
+              <Brain className="mr-2" /> AI Predictions
+            </h3>
+            <div className="space-y-3">
+              <div className="flex justify-between">
+                <span>Next Week Outlook</span>
+                <span className="text-emerald-400 font-bold">Bullish</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Confidence Level</span>
+                <span className="text-emerald-400 font-bold">87.3%</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Top Sector</span>
+                <span className="text-emerald-400 font-bold">IT Services</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Risk Assessment</span>
+                <span className="text-yellow-400 font-bold">Moderate</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
   const SettingsView = () => (
     <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-6 border ${darkMode ? quantumMode ? 'border-cyan-500' : 'border-emerald-500' : quantumMode ? 'border-cyan-200' : 'border-emerald-200'} relative z-10`}>
@@ -1456,7 +1622,7 @@ const App = () => {
                   <p className="text-sm text-gray-400">Activate quantum computing interface</p>
                 </div>
                 <button
-                  onClick={() => setQuantumMode(!quantumMode)}
+                  onClick={activateQuantumMode}
                   className={`relative inline-flex h-6 w-11 items-center rounded-full ${quantumMode ? 'bg-cyan-600' : 'bg-gray-300'}`}
                 >
                   <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition ${quantumMode ? 'translate-x-6' : 'translate-x-1'}`} />
@@ -1469,7 +1635,7 @@ const App = () => {
                   <p className="text-sm text-gray-400">AI-powered market analysis</p>
                 </div>
                 <button
-                  onClick={() => setNeuralNetworkMode(!neuralNetworkMode)}
+                  onClick={activateNeuralNetwork}
                   className={`relative inline-flex h-6 w-11 items-center rounded-full ${neuralNetworkMode ? 'bg-purple-600' : 'bg-gray-300'}`}
                 >
                   <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition ${neuralNetworkMode ? 'translate-x-6' : 'translate-x-1'}`} />
@@ -1585,7 +1751,7 @@ const App = () => {
                     min="0" 
                     max="10" 
                     value={tradingBotsActive}
-                    onChange={(e) => setTradingBotsActive(e.target.value)}
+                    onChange={(e) => setTradingBotsActive(parseInt(e.target.value))}
                     className="w-full"
                   />
                   <span className="text-sm">{tradingBotsActive}</span>
@@ -1700,8 +1866,8 @@ const App = () => {
   const renderView = () => {
     switch(activeView) {
       case 'dashboard': return <DashboardView />;
-      case 'watchlist': return <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-6 border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'} relative z-10`}>Enhanced Watchlist View</div>;
-      case 'analysis': return <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-6 border ${darkMode ? 'border-emerald-500' : 'border-emerald-200'} relative z-10`}>Quantum Analysis View</div>;
+      case 'watchlist': return <WatchlistView />;
+      case 'analysis': return <AnalysisView />;
       case 'settings': return <SettingsView />;
       default: return <DashboardView />;
     }
@@ -1744,9 +1910,6 @@ const App = () => {
         }
         .animate-marquee:hover {
           animation-play-state: paused;
-        }
-        .cyberpunk-text {
-          text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #0ff, 0 0 30px #0ff, 0 0 40px #0ff;
         }
       `}</style>
 
