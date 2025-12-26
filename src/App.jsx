@@ -56,9 +56,9 @@ import {
 } from 'lucide-react';
 
 // Import for 3D effects
-import * as THREE from 'three';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Sphere, Box, Torus, Cone, Cylinder } from '@react-three/drei';
+//import * as THREE from 'three';
+//import { Canvas, useFrame } from '@react-three/fiber';
+//import { OrbitControls, Sphere, Box, Torus, Cone, Cylinder } from '@react-three/drei';
 
 // Import for Charts
 import { 
